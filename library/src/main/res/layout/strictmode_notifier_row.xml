@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+  <LinearLayout
+      android:orientation="horizontal"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:textSize="16sp"
+        tools:text="1."
+        tools:ignore="RtlHardcoded"/>
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        tools:text="11:12"/>
+
+  </LinearLayout>
+
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="1px"
+      android:layout_marginTop="4dp"
+      android:layout_marginBottom="4dp"
+      android:background="#ccc"/>
+
+  <TextView
+      android:id="@+id/title_text"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="16sp"
+      tools:text="this is sample text ***************************************"/>
+
+  <HorizontalScrollView
+      android:id="@+id/expanded_container"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:scrollbarSize="1dp">
+
+    <TextView
+        android:id="@+id/stacktrace_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:textSize="12sp"
+        android:lineSpacingMultiplier="1.2"
+        tools:text="this is sample stack trace\n at Foo.class\n at Bar.class"/>
+
+  </HorizontalScrollView>
+
+
+</LinearLayout>

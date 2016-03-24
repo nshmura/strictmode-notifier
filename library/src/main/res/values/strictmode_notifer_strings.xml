@@ -1,0 +1,4 @@
+<resources>
+  <string name="strictmode_notifier_app_name">StrictMode</string>
+  <string name="strictmode_notifier_title">StrictMode Report</string>
+</resources>
