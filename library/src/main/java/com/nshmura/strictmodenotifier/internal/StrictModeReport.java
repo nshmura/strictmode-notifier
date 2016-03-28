@@ -1,19 +1,42 @@
 package com.nshmura.strictmodenotifier.internal;
 
+import android.content.Context;
+import android.text.format.DateUtils;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import static android.text.format.DateUtils.FORMAT_SHOW_DATE;
+import static android.text.format.DateUtils.FORMAT_SHOW_TIME;
+
 class StrictModeReport implements Serializable {
 
-  final String title;
-  final String logKey;
-  final ArrayList<String> stacktreace;
-  final long time;
+  public final ViolationType violationType;
+  public final String note;
+  public final String logKey;
+  public final ArrayList<String> stacktreace;
+  public final long time;
 
-  public StrictModeReport(String title, String logKey, ArrayList<String> stacktreace, long time) {
-    this.title = title;
+  public StrictModeReport(ViolationType violationType, String note, String logKey,
+      ArrayList<String> stacktreace, long time) {
+    this.violationType = violationType;
+    this.note = note;
     this.logKey = logKey;
     this.stacktreace = stacktreace;
     this.time = time;
+  }
+
+  public String getDateText(Context context) {
+    return DateUtils.formatDateTime(context, time, FORMAT_SHOW_TIME | FORMAT_SHOW_DATE);
+  }
+
+  public String getStacktraceText() {
+    StringBuilder builder = new StringBuilder();
+    for (String line : stacktreace) {
+      if (builder.length() > 0) {
+        builder.append("\n");
+      }
+      builder.append(line);
+    }
+    return builder.toString();
   }
 }

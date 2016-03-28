@@ -5,7 +5,7 @@ import java.util.concurrent.ThreadFactory;
 /**
  * This is intended to only be used with a single thread executor.
  */
-public final class StrictModeNotifierSingleThreadFactory implements ThreadFactory {
+final class StrictModeNotifierSingleThreadFactory implements ThreadFactory {
 
   private final String threadName;
 

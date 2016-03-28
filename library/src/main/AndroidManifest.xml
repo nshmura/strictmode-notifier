@@ -6,7 +6,7 @@
     <service android:name=".internal.LogWatchService"/>
 
     <activity
-        android:name=".internal.ReportActivity"
+        android:name=".internal.StrictModeReportActivity"
         android:enabled="false"
         android:icon="@drawable/strictmode_notifier_ic_launcher"
         android:label="@string/strictmode_notifier_app_name"
@@ -17,6 +17,10 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
+
+    <activity
+        android:name=".internal.StrictModeReportDetailActivity"
+        android:theme="@style/StrictModeNotifier.AppTheme"/>
 
   </application>
 

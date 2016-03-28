@@ -1,0 +1,22 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
+
+android {
+  compileSdkVersion rootProject.ext.compileSdkVersion
+  buildToolsVersion rootProject.ext.buildToolsVersion
+
+  defaultConfig {
+    minSdkVersion rootProject.ext.minSdkVersion
+    targetSdkVersion rootProject.ext.targetSdkVersion
+  }
+}
+
+publish {
+  userOrg = rootProject.ext.POM_DEVELOPER_ID
+  groupId = rootProject.ext.POM_GROUP
+  artifactId = rootProject.ext.POM_ARTIFACT_ID_NO_OP
+  uploadName = rootProject.ext.POM_ARTIFACT_NAME_NO_OP
+  publishVersion = rootProject.ext.POM_VERSION_NAME
+  desc = rootProject.ext.POM_DESCRIPTION_NO_OP
+  website = rootProject.ext.POM_URL
+}

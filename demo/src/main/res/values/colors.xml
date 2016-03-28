@@ -3,10 +3,4 @@
   <color name="colorPrimary">#3F51B5</color>
   <color name="colorPrimaryDark">#303F9F</color>
   <color name="colorAccent">#FF4081</color>
-
-  <string-array name="sample_names">
-    <item>1</item>
-    <item>2</item>
-    <item>3</item>
-  </string-array>
 </resources>

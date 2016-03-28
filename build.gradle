@@ -6,6 +6,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.0-alpha3'
+        classpath 'com.novoda:bintray-release:0.3.4'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -20,4 +21,28 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    minSdkVersion = 9
+    compileSdkVersion = 23
+    targetSdkVersion = compileSdkVersion
+    buildToolsVersion = '23.0.2'
+    javaVersion = JavaVersion.VERSION_1_7
+    supportLibraryVersion = '23.2.1'
+    versionCode = 1
+    versionName = "0.1.1"
+
+    POM_DEVELOPER_ID = "nshmura"
+    POM_GROUP = "com.nshmura"
+    POM_VERSION_NAME = versionName
+    POM_URL = "https://github.com/nshmura/strictmode-notifier"
+
+    POM_ARTIFACT_ID = "strictmode-notifier"
+    POM_ARTIFACT_NAME = "strictmode-notifier"
+    POM_DESCRIPTION = "An Android library that report notification of StrictMode violation."
+
+    POM_ARTIFACT_ID_NO_OP = "strictmode-notifier-no-op"
+    POM_ARTIFACT_NAME_NO_OP = "strictmode-notifier-no-op"
+    POM_DESCRIPTION_NO_OP = "No op strictmode-notifier"
 }

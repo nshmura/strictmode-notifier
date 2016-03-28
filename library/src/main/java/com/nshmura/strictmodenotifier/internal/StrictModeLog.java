@@ -1,13 +1,17 @@
 package com.nshmura.strictmodenotifier.internal;
 
-class StrictModeLog {
-  final String header;
-  final String message;
-  final long time;
+public class StrictModeLog {
+  public final String tag;
+  public final String message;
+  public final long time;
 
-  public StrictModeLog(String header, String message, long time) {
-    this.header = header;
+  public StrictModeLog(String tag, String message, long time) {
+    this.tag = tag;
     this.message = message;
     this.time = time;
+  }
+
+  public boolean isAt() {
+    return message.matches("^\\s+at.*");
   }
 }

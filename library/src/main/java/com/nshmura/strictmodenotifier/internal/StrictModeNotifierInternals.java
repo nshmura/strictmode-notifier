@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import com.nshmura.strictmodenotifier.R;
 import java.lang.reflect.Method;
@@ -22,6 +23,15 @@ import static android.os.Build.VERSION_CODES.JELLY_BEAN;
 public final class StrictModeNotifierInternals {
 
   private static final Executor fileIoExecutor = newSingleThreadExecutor("File-IO");
+
+  public static void enableReportActivity(Context context) {
+    StrictModeNotifierInternals.setEnabled(context, StrictModeReportActivity.class, true);
+  }
+
+  public static void startLogWatchService(Context context) {
+    Intent intent = new Intent(context, LogWatchService.class);
+    context.startService(intent);
+  }
 
   public static void setEnabled(Context context, final Class<?> componentClass,
       final boolean enabled) {
@@ -71,7 +81,7 @@ public final class StrictModeNotifierInternals {
         throw new RuntimeException(e);
       }
     } else {
-      Notification.Builder builder = new Notification.Builder(context) //
+      Notification.Builder builder = new Notification.Builder(context)
           .setSmallIcon(R.drawable.strictmode_notifier_ic_notification)
           .setWhen(System.currentTimeMillis())
           .setContentTitle(contentTitle)

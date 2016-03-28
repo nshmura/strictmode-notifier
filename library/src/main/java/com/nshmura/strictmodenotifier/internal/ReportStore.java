@@ -72,6 +72,10 @@ public class ReportStore {
     getPrefs().edit().putString(KEY, toString(reports)).apply();
   }
 
+  public void clear() {
+    getPrefs().edit().clear().apply();
+  }
+
   private SharedPreferences getPrefs() {
     return context.getSharedPreferences(NAME, Context.MODE_PRIVATE);
   }

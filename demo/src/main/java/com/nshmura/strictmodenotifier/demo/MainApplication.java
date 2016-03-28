@@ -10,22 +10,16 @@ public class MainApplication extends Application {
   @Override public void onCreate() {
     super.onCreate();
 
-    StrictModeNotifier.install(this);
+    if (BuildConfig.DEBUG) {
+      StrictModeNotifier.install(this);
 
-    //https://code.google.com/p/android/issues/detail?id=35298
-    new Handler().post(new Runnable() {
-      @Override public void run() {
-        StrictMode.ThreadPolicy threadPolicy = new StrictMode.ThreadPolicy.Builder().detectAll()
-            .permitDiskReads()
-            .permitDiskWrites()
-            .penaltyLog()
-            .build();
-        StrictMode.setThreadPolicy(threadPolicy);
-
-        StrictMode.VmPolicy vmPolicy =
-            new StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build();
-        StrictMode.setVmPolicy(vmPolicy);
-      }
-    });
+      //https://code.google.com/p/android/issues/detail?id=35298
+      new Handler().post(new Runnable() {
+        @Override public void run() {
+          StrictMode.setThreadPolicy(
+              new StrictMode.ThreadPolicy.Builder().detectCustomSlowCalls().penaltyLog().build());
+        }
+      });
+    }
   }
 }
