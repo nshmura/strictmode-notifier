@@ -24,8 +24,8 @@ In your `build.gradle`:
  }
 
  dependencies {
-    debugCompile 'com.nshmura:strictmode-notifer:0.1.1'
-    releaseCompile 'com.nshmura:strictmode-notifer-no-op:0.1.1'
+    debugCompile 'com.nshmura:strictmode-notifer:0.1.2'
+    releaseCompile 'com.nshmura:strictmode-notifer-no-op:0.1.2'
  }
 ```
 
