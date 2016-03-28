@@ -1,5 +1,5 @@
 # strictmode-notifier
-An Android library that shows a notification of StrictMode violation.
+An Android library that notify the StrictMode violation.
 
 <img src="assets/notification.png" width="25%" hspace="10" vspace="10"/>
 <img src="assets/detail.png" width="25%" hspace="10" vspace="10"/>
@@ -15,8 +15,8 @@ In your `build.gradle`:
 
 ```gradle
  dependencies {
-    debugCompile 'com.nshmura:strictmode-notifer:0.1.0'
-    releaseCompile 'com.nshmura:strictmode-notifer-no-op:0.1.0'
+    debugCompile 'com.nshmura:strictmode-notifer:0.1.1'
+    releaseCompile 'com.nshmura:strictmode-notifer-no-op:0.1.1'
  }
 ```
 
@@ -54,9 +54,9 @@ public class ExampleApplication extends Application {
 ```
 
 ## How does it work?
-1. StrictModeNotifier starts `logcat -v time -s StrictMode:*` command, and infinitely reads the output.
-2. If StrictMode violation is happend, logcat outputs logs.
-3. StrictModeNotifier reads that log, and shows a notification of the violation.
+1. `strictmode-notfier` starts `logcat`  command in backgound thread, and infinitely reads the log from `logcat`.
+2. If StrictMode violation is happend, error logs is outputed.
+3. `strictmode-notfier` reads that log via `logcat`, and shows a notification of the violation.
 
 ## Thanks
 Inspired by [square/leakcanary](https://github.com/square/leakcanary)
