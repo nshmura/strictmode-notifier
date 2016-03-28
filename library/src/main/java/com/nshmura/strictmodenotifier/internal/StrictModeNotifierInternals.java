@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import com.nshmura.strictmodenotifier.R;
 import java.lang.reflect.Method;
 import java.util.concurrent.Executor;
@@ -19,17 +20,20 @@ import static android.content.pm.PackageManager.DONT_KILL_APP;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.HONEYCOMB;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
 
 public final class StrictModeNotifierInternals {
 
   private static final Executor fileIoExecutor = newSingleThreadExecutor("File-IO");
+  private static final int NOTIFICATION_ID = 1;
 
   public static void enableReportActivity(Context context) {
     StrictModeNotifierInternals.setEnabled(context, StrictModeReportActivity.class, true);
   }
 
-  public static void startLogWatchService(Context context) {
-    Intent intent = new Intent(context, LogWatchService.class);
+  public static void startLogWatchService(Context context,
+      Class<? extends LogWatchService> serviceClass) {
+    Intent intent = new Intent(context, serviceClass);
     context.startService(intent);
   }
 
@@ -60,40 +64,66 @@ public final class StrictModeNotifierInternals {
     return Executors.newSingleThreadExecutor(new StrictModeNotifierSingleThreadFactory(threadName));
   }
 
-  @TargetApi(HONEYCOMB)
   public static void showNotification(Context context, CharSequence contentTitle,
-      CharSequence contentText, PendingIntent pendingIntent) {
-    NotificationManager notificationManager =
-        (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+      CharSequence contentText, boolean headupEnabled, PendingIntent pendingIntent) {
 
-    Notification notification;
     if (SDK_INT < HONEYCOMB) {
-      notification = new Notification();
-      notification.icon = R.drawable.strictmode_notifier_ic_notification;
-      notification.when = System.currentTimeMillis();
-      notification.flags |= Notification.FLAG_AUTO_CANCEL;
-      try {
-        Method method =
-            Notification.class.getMethod("setLatestEventInfo", Context.class, CharSequence.class,
-                CharSequence.class, PendingIntent.class);
-        method.invoke(notification, context, contentTitle, contentText, pendingIntent);
-      } catch (Exception e) {
-        throw new RuntimeException(e);
-      }
+      showNotificationFor9(context, contentTitle, contentText, pendingIntent);
     } else {
-      Notification.Builder builder = new Notification.Builder(context)
-          .setSmallIcon(R.drawable.strictmode_notifier_ic_notification)
+      Notification.Builder builder = new Notification.Builder(context).setSmallIcon(
+          R.drawable.strictmode_notifier_ic_notification)
           .setWhen(System.currentTimeMillis())
           .setContentTitle(contentTitle)
           .setContentText(contentText)
           .setAutoCancel(true)
           .setContentIntent(pendingIntent);
+
       if (SDK_INT < JELLY_BEAN) {
-        notification = builder.getNotification();
+        showNotificationFor11(context, builder);
       } else {
-        notification = builder.build();
+        showNotificationFor16(context, headupEnabled, pendingIntent, builder);
       }
     }
-    notificationManager.notify(0xDEAFBEEF, notification);
+  }
+
+  private static void showNotificationFor9(Context context, CharSequence contentTitle,
+      CharSequence contentText, PendingIntent pendingIntent) {
+
+    Notification notification = new Notification();
+    //noinspection deprecation
+    notification.icon = R.drawable.strictmode_notifier_ic_notification;
+    notification.when = System.currentTimeMillis();
+    notification.flags |= Notification.FLAG_AUTO_CANCEL;
+    try {
+      Method method =
+          Notification.class.getMethod("setLatestEventInfo", Context.class, CharSequence.class,
+              CharSequence.class, PendingIntent.class);
+      method.invoke(notification, context, contentTitle, contentText, pendingIntent);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+
+    getNotificationManager(context).notify(NOTIFICATION_ID, notification);
+  }
+
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+  private static void showNotificationFor11(Context context, Notification.Builder builder) {
+    //noinspection deprecation
+    getNotificationManager(context).notify(NOTIFICATION_ID, builder.getNotification());
+  }
+
+  @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+  private static void showNotificationFor16(Context context, boolean headupEnabled,
+      PendingIntent pendingIntent, Notification.Builder builder) {
+
+    if (SDK_INT >= LOLLIPOP && headupEnabled) {
+      builder.setFullScreenIntent(pendingIntent, true);
+    }
+
+    getNotificationManager(context).notify(NOTIFICATION_ID, builder.build());
+  }
+
+  private static NotificationManager getNotificationManager(Context context) {
+    return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
   }
 }

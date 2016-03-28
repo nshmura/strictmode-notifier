@@ -10,7 +10,7 @@ public class MainApplication extends Application {
   @Override public void onCreate() {
     super.onCreate();
 
-    StrictModeNotifier.install(this);
+    StrictModeNotifier.install(this, CustomLogWatchService.class);
 
     //https://code.google.com/p/android/issues/detail?id=35298
     new Handler().post(new Runnable() {

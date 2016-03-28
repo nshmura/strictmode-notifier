@@ -18,7 +18,7 @@ public class StrictModeReportActivity extends Activity {
   private static final String EXTRA_REPORT = "EXTRA_REPORT";
 
   private ReportAdapter adapter;
-  private ReportStore reportStore;
+  private ViolationStore violationStore;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -32,13 +32,13 @@ public class StrictModeReportActivity extends Activity {
     //noinspection ConstantConditions
     listView.setAdapter(adapter);
 
-    reportStore = new ReportStore(this);
-    List<StrictModeReport> reports = reportStore.getAll();
+    violationStore = new ViolationStore(this);
+    List<StrictModeViolation> reports = violationStore.getAll();
     adapter.addAll(reports);
 
     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        StrictModeReport report = adapter.getItem(position);
+        StrictModeViolation report = adapter.getItem(position);
         StrictModeReportDetailActivity.start(StrictModeReportActivity.this, report);
       }
     });
@@ -46,27 +46,27 @@ public class StrictModeReportActivity extends Activity {
     //noinspection ConstantConditions
     findViewById(R.id.__delete_button).setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        reportStore.clear();
+        violationStore.clear();
         adapter.clear();
         adapter.notifyDataSetChanged();
       }
     });
 
     if (savedInstanceState == null) {
-      StrictModeReport report = (StrictModeReport) getIntent().getSerializableExtra(EXTRA_REPORT);
+      StrictModeViolation report = (StrictModeViolation) getIntent().getSerializableExtra(EXTRA_REPORT);
       if (report != null) {
         StrictModeReportDetailActivity.start(this, report);
       }
     }
   }
 
-  public static Intent createIntent(Context context, StrictModeReport report) {
+  public static Intent createIntent(Context context, StrictModeViolation report) {
     Intent intent = new Intent(context, StrictModeReportActivity.class);
     intent.putExtra(EXTRA_REPORT, report);
     return intent;
   }
 
-  public static PendingIntent createPendingIntent(Context context, StrictModeReport report) {
+  public static PendingIntent createPendingIntent(Context context, StrictModeViolation report) {
     Intent intent = StrictModeReportActivity.createIntent(context, report);
     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
     return PendingIntent.getActivity(context, 1, intent, FLAG_UPDATE_CURRENT);

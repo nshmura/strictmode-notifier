@@ -11,14 +11,14 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ReportStore {
+public class ViolationStore {
   private static final String NAME = "strictmode";
   private static final String KEY = "reports";
   private static final int MAX_REPORTS = 50;
 
   private final Context context;
 
-  public ReportStore(Context context) {
+  public ViolationStore(Context context) {
     this.context = context;
   }
 
@@ -48,12 +48,12 @@ public class ReportStore {
     return Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
   }
 
-  public ArrayList<StrictModeReport> getAll() {
+  public ArrayList<StrictModeViolation> getAll() {
     try {
       String serialized = getPrefs().getString(KEY, null);
       if (serialized != null) {
         //noinspection unchecked
-        return (ArrayList<StrictModeReport>) fromString(serialized);
+        return (ArrayList<StrictModeViolation>) fromString(serialized);
       }
     } catch (Exception e) {
       //ignore
@@ -61,8 +61,8 @@ public class ReportStore {
     return new ArrayList<>();
   }
 
-  public void append(StrictModeReport report) throws IOException {
-    ArrayList<StrictModeReport> reports = getAll();
+  public void append(StrictModeViolation report) throws IOException {
+    ArrayList<StrictModeViolation> reports = getAll();
 
     if (reports.size() > MAX_REPORTS) {
       reports.subList(0, MAX_REPORTS);

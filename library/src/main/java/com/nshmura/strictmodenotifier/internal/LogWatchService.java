@@ -19,25 +19,24 @@ public class LogWatchService extends Service {
   private static final String THREAD_NAME = LogWatchService.class.getSimpleName();
   private static final String TAG = THREAD_NAME;
 
+  protected static boolean debugMode;
+  protected static boolean headupEnabled = true;
+
   private static final String LOGCAT_COMMAND = "logcat -v time -s StrictMode:* System.err:*";
   private static final java.lang.String PARSE_REGEXP = "(StrictMode|System.err)(\\([ 0-9]+\\))?:";
   private static final CharSequence EXCEPTION_KEY = "System.err";
 
   private static final long NOTIFICATION_DELY = 2000; //ms
   private static final long LOG_DELY = 1000; //ms
-  private static final long ERROR_SLEEP = 1000; //ms
-  private static final int MAX_ERROR_COUNT = 3;
 
   private Process proc;
-  private int errorCount;
-
-  private final ReportStore reportStore;
+  private final ViolationStore violationStore;
   private List<StrictModeLog> logs = new ArrayList<>();
   private Timer timer = null;
   private ViolationType[] values = ViolationType.values();
 
   public LogWatchService() {
-    reportStore = new ReportStore(this);
+    violationStore = new ViolationStore(this);
   }
 
   @Override public int onStartCommand(Intent intent, int flags, int startId) {
@@ -56,7 +55,7 @@ public class LogWatchService extends Service {
 
   @Override public void onDestroy() {
     super.onDestroy();
-    Log.d(TAG, "onDestroy");
+    log("onDestroy");
 
     if (proc != null) {
       proc.destroy();
@@ -64,8 +63,27 @@ public class LogWatchService extends Service {
     }
   }
 
+  /**
+   * notify the StrictModeViolation.
+   */
+  protected void notifyViolation(StrictModeViolation violation) {
+
+    String notificationTitle;
+    if (violation.violationType != null) {
+      notificationTitle = violation.violationType.violationName();
+    } else {
+      notificationTitle = getString(R.string.strictmode_notifier_title);
+    }
+
+    StrictModeNotifierInternals.showNotification(this,
+        notificationTitle,
+        getString(R.string.strictmode_notifier_more_detail),
+        headupEnabled,
+        StrictModeReportActivity.createPendingIntent(this, violation));
+  }
+
   private void readLoop() {
-    Log.d(TAG, "start readLoop");
+    log("start readLoop");
 
     BufferedReader reader = null;
 
@@ -88,13 +106,8 @@ public class LogWatchService extends Service {
             startReportTimer();
           }
         } else {
-          sleep();
-
-          errorCount++;
-          if (errorCount > MAX_ERROR_COUNT) {
-            error("error limit exceeded");
-            break;
-          }
+          error("error limit exceeded");
+          break;
         }
       }
     } catch (IOException e) {
@@ -152,7 +165,10 @@ public class LogWatchService extends Service {
 
             boolean isAt = log.isAt();
             if (!isAt && prevIsAt && targets.size() > 0) {
-              reportLog(targets);
+              StrictModeViolation report = createViolation(targets);
+              if (report != null) {
+                notifyViolation(report);
+              }
               targets.clear();
             }
             prevIsAt = isAt;
@@ -161,7 +177,10 @@ public class LogWatchService extends Service {
           }
 
           if (targets.size() > 0 && System.currentTimeMillis() - lastReadTime >= LOG_DELY) {
-            reportLog(targets);
+            StrictModeViolation report = createViolation(targets);
+            if (report != null) {
+              notifyViolation(report);
+            }
             targets.clear();
           }
           timer = null;
@@ -177,7 +196,18 @@ public class LogWatchService extends Service {
     }, NOTIFICATION_DELY);
   }
 
-  private void reportLog(List<StrictModeLog> logs) {
+  private ViolationType getViolationType(List<StrictModeLog> logs) {
+    for (StrictModeLog log : logs) {
+      for (ViolationType type : values) {
+        if (type.detector.detect(log)) {
+          return type;
+        }
+      }
+    }
+    return null;
+  }
+
+  private StrictModeViolation createViolation(List<StrictModeLog> logs) {
     ArrayList<String> stacktreace = new ArrayList<>(logs.size());
     String title = "";
     String logKey = "";
@@ -194,49 +224,29 @@ public class LogWatchService extends Service {
 
     ViolationType violationType = getViolationType(logs);
     if (violationType == null && logKey.contains(EXCEPTION_KEY)) {
-      return;
+      return null;
     }
 
-    StrictModeReport report = new StrictModeReport(violationType, title, logKey, stacktreace, time);
+    StrictModeViolation violation = new StrictModeViolation(violationType, title, logKey, stacktreace, time);
 
     try {
-      reportStore.append(report);
+      violationStore.append(violation);
     } catch (IOException e) {
       e.printStackTrace();
     }
 
-    String notificationTitle;
-    if (report.violationType != null) {
-      notificationTitle = report.violationType.violationName();
-    } else {
-      notificationTitle = getString(R.string.strictmode_notifier_title);
-    }
-
-    StrictModeNotifierInternals.showNotification(this, notificationTitle,
-        getString(R.string.strictmode_notifier_more_detail),
-        StrictModeReportActivity.createPendingIntent(this, report));
+    return violation;
   }
 
-  private ViolationType getViolationType(List<StrictModeLog> logs) {
-    for (StrictModeLog log : logs) {
-      for (ViolationType type : values) {
-        if (type.detector.detect(log)) {
-          return type;
-        }
-      }
-    }
-    return null;
-  }
-
-  private void sleep() {
-    try {
-      Thread.sleep(ERROR_SLEEP);
-    } catch (InterruptedException e) {
-      //ignore
+  private void log(String message) {
+    if (debugMode) {
+      Log.d(TAG, message);
     }
   }
 
   private void error(String message) {
-    Log.e(TAG, message);
+    if (debugMode) {
+      Log.e(TAG, message);
+    }
   }
 }

@@ -8,18 +8,18 @@ import java.util.ArrayList;
 import static android.text.format.DateUtils.FORMAT_SHOW_DATE;
 import static android.text.format.DateUtils.FORMAT_SHOW_TIME;
 
-class StrictModeReport implements Serializable {
+public class StrictModeViolation implements Serializable {
 
   public final ViolationType violationType;
-  public final String note;
+  public final String message;
   public final String logKey;
   public final ArrayList<String> stacktreace;
   public final long time;
 
-  public StrictModeReport(ViolationType violationType, String note, String logKey,
+  public StrictModeViolation(ViolationType violationType, String message, String logKey,
       ArrayList<String> stacktreace, long time) {
     this.violationType = violationType;
-    this.note = note;
+    this.message = message;
     this.logKey = logKey;
     this.stacktreace = stacktreace;
     this.time = time;

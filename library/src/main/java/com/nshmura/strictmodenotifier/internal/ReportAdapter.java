@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 class ReportAdapter extends BaseAdapter {
-  List<StrictModeReport> reports = new ArrayList<>();
+  List<StrictModeViolation> reports = new ArrayList<>();
   private StrictModeReportActivity reportActivity;
 
   public ReportAdapter(StrictModeReportActivity reportActivity) {
@@ -21,7 +21,7 @@ class ReportAdapter extends BaseAdapter {
     return reports.size();
   }
 
-  @Override public StrictModeReport getItem(int position) {
+  @Override public StrictModeViolation getItem(int position) {
     return reports.get(position);
   }
 
@@ -30,7 +30,7 @@ class ReportAdapter extends BaseAdapter {
   }
 
   @Override public View getView(int position, View convertView, ViewGroup parent) {
-    StrictModeReport report = getItem(position);
+    StrictModeViolation report = getItem(position);
 
     if (convertView == null) {
       convertView = LayoutInflater.from(reportActivity)
@@ -46,13 +46,13 @@ class ReportAdapter extends BaseAdapter {
     if (report.violationType != null) {
       holder.violationTypeText.setText(report.violationType.violationName());
     } else {
-      holder.violationTypeText.setText(report.note);
+      holder.violationTypeText.setText(report.message);
     }
 
     return convertView;
   }
 
-  public void addAll(List<StrictModeReport> reports) {
+  public void addAll(List<StrictModeViolation> reports) {
     this.reports.addAll(reports);
   }
 
