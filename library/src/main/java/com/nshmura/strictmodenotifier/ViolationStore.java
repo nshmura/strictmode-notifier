@@ -1,4 +1,4 @@
-package com.nshmura.strictmodenotifier.internal;
+package com.nshmura.strictmodenotifier;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -70,6 +70,26 @@ public class ViolationStore {
 
     reports.add(0, report);
     getPrefs().edit().putString(KEY, toString(reports)).apply();
+  }
+
+  public void remove(StrictModeViolation target) {
+    ArrayList<StrictModeViolation> reports = getAll();
+    Integer targetIndex = null;
+    for(int i = 0; i < reports.size(); i++) {
+      StrictModeViolation report = reports.get(i);
+      if (report.logKey.equals(target.logKey) && report.time == target.time) {
+        targetIndex = i;
+        break;
+      }
+    }
+    if (targetIndex != null) {
+      reports.remove(targetIndex.intValue());
+      try {
+        getPrefs().edit().putString(KEY, toString(reports)).apply();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
   }
 
   public void clear() {

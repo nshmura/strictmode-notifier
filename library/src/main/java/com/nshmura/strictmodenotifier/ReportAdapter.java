@@ -1,11 +1,10 @@
-package com.nshmura.strictmodenotifier.internal;
+package com.nshmura.strictmodenotifier;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import com.nshmura.strictmodenotifier.R;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +39,7 @@ class ReportAdapter extends BaseAdapter {
 
     ViewHolder holder = (ViewHolder) convertView.getTag();
     holder.numberText.setText(
-        parent.getContext().getString(R.string.strictmode_count, getCount() - position));
+        parent.getContext().getString(R.string.strictmode_notifier_count, getCount() - position));
     holder.dateText.setText(report.getDateText(reportActivity));
 
     if (report.violationType != null) {

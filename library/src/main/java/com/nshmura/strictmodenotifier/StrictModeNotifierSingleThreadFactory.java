@@ -1,4 +1,4 @@
-package com.nshmura.strictmodenotifier.internal;
+package com.nshmura.strictmodenotifier;
 
 import java.util.concurrent.ThreadFactory;
 

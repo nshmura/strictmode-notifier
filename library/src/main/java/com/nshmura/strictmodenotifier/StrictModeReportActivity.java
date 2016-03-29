@@ -1,4 +1,4 @@
-package com.nshmura.strictmodenotifier.internal;
+package com.nshmura.strictmodenotifier;
 
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import com.nshmura.strictmodenotifier.R;
 import java.util.List;
 
 import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
@@ -33,9 +32,6 @@ public class StrictModeReportActivity extends Activity {
     listView.setAdapter(adapter);
 
     violationStore = new ViolationStore(this);
-    List<StrictModeViolation> reports = violationStore.getAll();
-    adapter.addAll(reports);
-
     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         StrictModeViolation report = adapter.getItem(position);
@@ -58,6 +54,15 @@ public class StrictModeReportActivity extends Activity {
         StrictModeReportDetailActivity.start(this, report);
       }
     }
+  }
+
+  @Override protected void onResume() {
+    super.onResume();
+
+    List<StrictModeViolation> reports = violationStore.getAll();
+    adapter.clear();
+    adapter.addAll(reports);
+    adapter.notifyDataSetChanged();
   }
 
   public static Intent createIntent(Context context, StrictModeViolation report) {

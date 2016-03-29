@@ -1,6 +1,6 @@
-package com.nshmura.strictmodenotifier.internal.detector;
+package com.nshmura.strictmodenotifier.detector;
 
-import com.nshmura.strictmodenotifier.internal.StrictModeLog;
+import com.nshmura.strictmodenotifier.StrictModeLog;
 
 public class CustomSlowCallDetector implements Detector {
 

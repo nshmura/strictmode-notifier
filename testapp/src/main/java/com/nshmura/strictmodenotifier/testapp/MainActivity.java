@@ -23,8 +23,8 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
-import com.nshmura.strictmodenotifier.internal.LogWatchService;
-import com.nshmura.strictmodenotifier.internal.ViolationType;
+import com.nshmura.strictmodenotifier.LogWatchService;
+import com.nshmura.strictmodenotifier.ViolationType;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -49,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
     inflater.inflate(R.menu.main, menu);
     return true;
   }
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
     // Handle item selection
     switch (item.getItemId()) {
       case R.id.menu_stop_service:
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
   }
+
   private void fireStrictModeError(ViolationType action) {
 
     if (Build.VERSION.SDK_INT < action.minSdkVersion) {
@@ -69,34 +70,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     switch (action) {
-      case Custom_Slow_Call:
+      case CUSTOM_SLOW_CALL:
         fireSlowCall();
         break;
-      case Network:
+      case NETWORK:
         fireNetwork();
         break;
-      case Resource_Mismatches:
+      case RESOURCE_MISMATCHES:
         fireResourceMismatches();
         break;
-      case Class_Instance_Limit:
+      case CLASS_INSTANCE_LIMIT:
         fireClassInstanceLimit();
         break;
-      case Cleartext_Network:
+      case CLEARTEXT_NETWORK:
         fireCleartextNetwork();
         break;
-      case File_Uri_Exposure:
+      case FILE_URI_EXPOSURE:
         fireFileUriExposure();
         break;
-      case Leaked_Closable_Objects:
+      case LEAKED_CLOSABLE_OBJECTS:
         fireLeakedClosableObjects();
         break;
-      case Activity_Leaks:
+      case ACTIVITY_LEAKS:
         fireActivityLeaks();
         break;
-      case Leaked_Registration_Objects:
+      case LEAKED_REGISTRATION_OBJECTS:
         fireLeakedRegistrationObjects();
         break;
-      case Leaked_Sql_Lite_Objects:
+      case LEAKED_SQL_LITE_OBJECTS:
         fireLeakedSqlLiteObjects();
         break;
     }
@@ -132,8 +133,9 @@ public class MainActivity extends AppCompatActivity {
     Runnable runnable = new Runnable() {
       @Override public void run() {
         try {
-          Method method = NetworkSecurityPolicy.getInstance().getClass().getMethod(
-              "setCleartextTrafficPermitted", boolean.class);
+          Method method = NetworkSecurityPolicy.getInstance()
+              .getClass()
+              .getMethod("setCleartextTrafficPermitted", boolean.class);
           method.invoke(NetworkSecurityPolicy.getInstance(), false);
 
           URL url = new URL("http://google.com/");
@@ -142,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
           con.connect();
 
           method.invoke(NetworkSecurityPolicy.getInstance(), true);
-
         } catch (Exception e) {
           e.printStackTrace();
         }
@@ -194,9 +195,9 @@ public class MainActivity extends AppCompatActivity {
 
     public Adapter() {
       ArrayList<ViolationType> list = new ArrayList<>(Arrays.asList(ViolationType.values()));
-      list.remove(ViolationType.Activity_Leaks);
-      list.remove(ViolationType.Leaked_Registration_Objects);
-      list.remove(ViolationType.Leaked_Sql_Lite_Objects);
+      list.remove(ViolationType.ACTIVITY_LEAKS);
+      list.remove(ViolationType.LEAKED_REGISTRATION_OBJECTS);
+      list.remove(ViolationType.LEAKED_SQL_LITE_OBJECTS);
       values = list.toArray(new ViolationType[list.size()]);
     }
 

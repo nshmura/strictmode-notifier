@@ -17,7 +17,7 @@ public class MainApplication extends Application {
       new Handler().post(new Runnable() {
         @Override public void run() {
           StrictMode.setThreadPolicy(
-              new StrictMode.ThreadPolicy.Builder().detectCustomSlowCalls().penaltyLog().build());
+              new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build());
         }
       });
     }

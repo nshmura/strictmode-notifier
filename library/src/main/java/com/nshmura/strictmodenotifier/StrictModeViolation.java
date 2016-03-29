@@ -1,4 +1,4 @@
-package com.nshmura.strictmodenotifier.internal;
+package com.nshmura.strictmodenotifier;
 
 import android.content.Context;
 import android.text.format.DateUtils;

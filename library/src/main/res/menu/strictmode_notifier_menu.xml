@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <item android:id="@+id/__menu_copy"
+      android:title="@string/strictmode_notifier_menu_copy"/>
+
+  <item android:id="@+id/__menu_share"
+      android:title="@string/strictmode_notifier_menu_share"/>
+
+</menu>

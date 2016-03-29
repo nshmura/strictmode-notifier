@@ -1,8 +1,8 @@
 package com.nshmura.strictmodenotifier.testapp;
 
 import android.util.Log;
-import com.nshmura.strictmodenotifier.internal.LogWatchService;
-import com.nshmura.strictmodenotifier.internal.StrictModeViolation;
+import com.nshmura.strictmodenotifier.LogWatchService;
+import com.nshmura.strictmodenotifier.StrictModeViolation;
 
 public class CustomLogWatchService extends LogWatchService {
 

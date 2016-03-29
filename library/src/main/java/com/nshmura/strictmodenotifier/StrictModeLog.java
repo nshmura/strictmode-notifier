@@ -1,4 +1,4 @@
-package com.nshmura.strictmodenotifier.internal;
+package com.nshmura.strictmodenotifier;
 
 public class StrictModeLog {
   public final String tag;

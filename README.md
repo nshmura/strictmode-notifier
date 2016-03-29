@@ -3,8 +3,8 @@ An Android library that enhances the StrictMode reporting.
 
 - *Head-up Notification* of StrictMode violations.
 - *Custom Actions* that called when StrictMode violations is happend.
-- *Violation Histories Viewer* that automatically installed. 
-Icon is <img src="/library/src/main/res/drawable-xxxhdpi/strictmode_notifier_ic_launcher.png" width="30"/>.
+- *Violation Histories Viewer* that automatically installed. <br>
+(Icon is <img src="/library/src/main/res/drawable-xxxhdpi/strictmode_notifier_ic_launcher.png" width="30"/>)
 
 <img src="assets/notification.png" width="25%" hspace="10" vspace="10"/>
 <img src="assets/detail.png" width="25%" hspace="10" vspace="10"/>
@@ -24,8 +24,8 @@ In your `build.gradle`:
  }
 
  dependencies {
-    debugCompile 'com.nshmura:strictmode-notifer:0.1.2'
-    releaseCompile 'com.nshmura:strictmode-notifer-no-op:0.1.2'
+    debugCompile 'com.nshmura:strictmode-notifer:0.1.4'
+    releaseCompile 'com.nshmura:strictmode-notifer-no-op:0.1.4'
  }
 ```
 
@@ -64,42 +64,108 @@ public class ExampleApplication extends Application {
 }
 ```
 
-## Custom actions
+## How does it work?
+1. `strictmode-notfier` starts `logcat`  command in backgound thread, and infinitely reads the log from `logcat`.
+2. If StrictMode violation is happend, error logs is outputed.
+3. `strictmode-notfier` reads that log via `logcat`, and shows a notification of the violation.
+
+
+## Customizing
+
+You need to make sure that the customization happens only in debug build,
+since the `strictmode-notifier-no-op` only contains the StrictModeNotifier class.
 
 In your `Application` class:
+
 ```java
 public class ExampleApplication extends Application {
 
   @Override public void onCreate() {
     super.onCreate();
-
-    if (BuildConfig.DEBUG) {
-      StrictModeNotifier.install(this, CustomLogWatchService.class);
-    
-      //setup StrictMode.
-      //...
-    }
+    StrictModeInitializer.init(this);
   }
 }
 ```
 
-In your `CustomLogWatchService` class:
+In your `StrictModeInitializer` class for debug build:
+
 ```java
-public class CustomLogWatchService extends LogWatchService {
+public class StrictModeInitializer {
 
-  @Override
-  protected void notifyViolation(StrictModeViolation violation) {
-    super.notifyViolation(violation); //show a Notification.
+  public static void init(Context context) {
+    StrictModeNotifier
+        .install(context)
+        .setIgnoreAction(new NotifierConfig.IgnoreAction() {
+          @Override public boolean ignore(StrictModeViolation violation) {
+            // ex) ignore LEAKED_CLOSABLE_OBJECTS that contains android.foo.bar in stacktrace.
+            return violation.violationType == ViolationType.LEAKED_CLOSABLE_OBJECTS
+                && violation.getStacktraceText().contains("android.foo.bar");
+          }
+        })
+        .addCustomAction(new NotifierConfig.CustomAction() {
+          @Override public void onViolation(StrictModeViolation violation) {
+            //TODO send to Slack
+          }
+        });
 
-    // Custom Actions.
-    // ex) Send logs to Slack.
+    //setup StrictMode.
+    //...
   }
 }
 ```
-## How does it work?
-1. `strictmode-notfier` starts `logcat`  command in backgound thread, and infinitely reads the log from `logcat`.
-2. If StrictMode violation is happend, error logs is outputed.
-3. `strictmode-notfier` reads that log via `logcat`, and shows a notification of the violation.
+
+In your `StrictModeInitializer` class for release build:
+
+
+```java
+public class StrictModeInitializer {
+
+  public static void init(Context context) {
+    //no-op
+  }
+}
+```
+
+### How to ignore violations
+
+```java
+StrictModeNotifier
+    .install(context)
+    .setIgnoreAction(new NotifierConfig.IgnoreAction() {
+      @Override public boolean ignore(StrictModeViolation violation) {
+        // ex) ignore LEAKED_CLOSABLE_OBJECTS that contains android.foo.bar in stacktrace.
+        return violation.violationType == ViolationType.LEAKED_CLOSABLE_OBJECTS
+            && violation.getStacktraceText().contains("android.foo.bar");
+      }
+    });
+```
+
+### How to add custom actions
+
+```java
+StrictModeNotifier
+    .install(context)
+    .addCustomAction(new NotifierConfig.CustomAction() {
+      @Override public void onViolation(StrictModeViolation violation) {
+        //TODO send to Slack
+      }
+    });
+```
+
+### Other settings
+
+```java
+    StrictModeNotifier
+        .install(this)
+        .setHeadupEnabled(false)
+        .setDebugMode(true);
+```
+
+## Todo
+Below violations currently is not parsing collectory.
+- ActivityLeaks
+- LeakedRegistrationObjects
+- LeakedSqlLiteObjects
 
 ## Thanks
 Inspired by [square/leakcanary](https://github.com/square/leakcanary)

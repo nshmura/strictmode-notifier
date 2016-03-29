@@ -1,6 +1,6 @@
-package com.nshmura.strictmodenotifier.internal.detector;
+package com.nshmura.strictmodenotifier.detector;
 
-import com.nshmura.strictmodenotifier.internal.StrictModeLog;
+import com.nshmura.strictmodenotifier.StrictModeLog;
 
 public class LeakedClosableObjectsDetector implements Detector {
 
@@ -8,4 +8,3 @@ public class LeakedClosableObjectsDetector implements Detector {
     return log.message.contains("A resource was acquired at attached stack trace but never released.");
   }
 }
-
