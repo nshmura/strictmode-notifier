@@ -3,8 +3,7 @@ An Android library that enhances the StrictMode reporting.
 
 - *Head-up Notification* of StrictMode violations.
 - *Custom Actions* that called when StrictMode violations is happend.
-- *Violation Histories Viewer* that automatically installed. <br>
-(Icon is <img src="/library/src/main/res/drawable-xxxhdpi/strictmode_notifier_ic_launcher.png" width="30"/>)
+- *Violation Histories Viewer* that automatically installed. <br> <img src="/library/src/main/res/drawable-xxxhdpi/strictmode_notifier_ic_launcher.png" width="30"/>
 
 <img src="assets/notification.png" width="25%" hspace="10" vspace="10"/>
 <img src="assets/detail.png" width="25%" hspace="10" vspace="10"/>
@@ -24,8 +23,8 @@ In your `build.gradle`:
  }
 
  dependencies {
-    debugCompile 'com.nshmura:strictmode-notifer:0.1.4'
-    releaseCompile 'com.nshmura:strictmode-notifer-no-op:0.1.4'
+    debugCompile 'com.nshmura:strictmode-notifer:0.1.5'
+    releaseCompile 'com.nshmura:strictmode-notifer-no-op:0.1.5'
  }
 ```
 
@@ -75,38 +74,15 @@ public class ExampleApplication extends Application {
 You need to make sure that the customization happens only in debug build,
 since the `strictmode-notifier-no-op` only contains the StrictModeNotifier class.
 
-In your `Application` class:
+Make `MyStrictMode` class in debug build directory:
 
 ```java
-public class ExampleApplication extends Application {
-
-  @Override public void onCreate() {
-    super.onCreate();
-    StrictModeInitializer.init(this);
-  }
-}
-```
-
-In your `StrictModeInitializer` class for debug build:
-
-```java
-public class StrictModeInitializer {
+public class MyStrictMode {
 
   public static void init(Context context) {
     StrictModeNotifier
         .install(context)
-        .setIgnoreAction(new NotifierConfig.IgnoreAction() {
-          @Override public boolean ignore(StrictModeViolation violation) {
-            // ex) ignore LEAKED_CLOSABLE_OBJECTS that contains android.foo.bar in stacktrace.
-            return violation.violationType == ViolationType.LEAKED_CLOSABLE_OBJECTS
-                && violation.getStacktraceText().contains("android.foo.bar");
-          }
-        })
-        .addCustomAction(new NotifierConfig.CustomAction() {
-          @Override public void onViolation(StrictModeViolation violation) {
-            //TODO send to Slack
-          }
-        });
+        //... Customizing ...
 
     //setup StrictMode.
     //...
@@ -114,14 +90,25 @@ public class StrictModeInitializer {
 }
 ```
 
-In your `StrictModeInitializer` class for release build:
-
+Make `MyStrictMode` class in release build directory:
 
 ```java
-public class StrictModeInitializer {
+public class MyStrictMode {
 
   public static void init(Context context) {
     //no-op
+  }
+}
+```
+
+In your `Application` class:
+
+```java
+public class ExampleApplication extends Application {
+
+  @Override public void onCreate() {
+    super.onCreate();
+    MyStrictMode.init(this);
   }
 }
 ```
@@ -155,17 +142,11 @@ StrictModeNotifier
 ### Other settings
 
 ```java
-    StrictModeNotifier
-        .install(this)
-        .setHeadupEnabled(false)
-        .setDebugMode(true);
+StrictModeNotifier
+    .install(context)
+    .setHeadupEnabled(false)
+    .setDebugMode(true);
 ```
-
-## Todo
-Below violations currently is not parsing collectory.
-- ActivityLeaks
-- LeakedRegistrationObjects
-- LeakedSqlLiteObjects
 
 ## Thanks
 Inspired by [square/leakcanary](https://github.com/square/leakcanary)
