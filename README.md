@@ -3,7 +3,7 @@ An Android library that enhances the StrictMode reporting.
 
 - *Head-up Notification* of StrictMode violations.
 - *Custom Actions* that called when StrictMode violations is happend.
-- *Violation Histories Viewer* that automatically installed. <br> <img src="/library/src/main/res/drawable-xxxhdpi/strictmode_notifier_ic_launcher.png" width="30"/>
+- *Violation History Viewer* that automatically installed. <br> <img src="/library/src/main/res/drawable-xxxhdpi/strictmode_notifier_ic_launcher.png" width="30"/>
 
 <img src="assets/notification.png" width="25%" hspace="10" vspace="10"/>
 <img src="assets/detail.png" width="25%" hspace="10" vspace="10"/>
@@ -40,7 +40,10 @@ public class ExampleApplication extends Application {
       //setup this library
       StrictModeNotifier.install(this);
 
-      //setup StrictMode. penaltyLog() should be call.
+      //setup StrictMode.
+      // 
+      // penaltyLog() should be called for strictmode-notifier
+      //
       new Handler().post(new Runnable() {
         @Override public void run() {
           StrictMode.ThreadPolicy threadPolicy = new StrictMode.ThreadPolicy.Builder()
@@ -64,9 +67,9 @@ public class ExampleApplication extends Application {
 ```
 
 ## How does it work?
-1. `strictmode-notfier` starts `logcat`  command in backgound thread, and infinitely reads the log from `logcat`.
+1. `strictmode-notifier` starts `logcat`  command in backgound thread, and infinitely reads the log from `logcat`.
 2. If StrictMode violation is happend, error logs is outputed.
-3. `strictmode-notfier` reads that log via `logcat`, and shows a notification of the violation.
+3. `strictmode-notifier` reads that log via `logcat`, and shows a notification of the violation.
 
 
 ## Customizing
@@ -113,7 +116,7 @@ public class ExampleApplication extends Application {
 }
 ```
 
-### How to ignore violations
+### How to ignore specific violations
 
 ```java
 StrictModeNotifier
@@ -134,7 +137,7 @@ StrictModeNotifier
     .install(context)
     .addCustomAction(new NotifierConfig.CustomAction() {
       @Override public void onViolation(StrictModeViolation violation) {
-        //TODO send to Slack
+        //ex) Send messages into Slack
       }
     });
 ```
@@ -147,6 +150,12 @@ StrictModeNotifier
     .setHeadupEnabled(false)
     .setDebugMode(true);
 ```
+
+## Todo
+Parsing following violations
+- ActivityLeaks
+- LeakedRegistrationObjects
+- LeakedSqlLiteObjects
 
 ## Thanks
 Inspired by [square/leakcanary](https://github.com/square/leakcanary)
