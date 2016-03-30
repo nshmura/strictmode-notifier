@@ -1,8 +1,7 @@
 package com.nshmura.strictmodenotifier;
 
-import android.app.Service;
+import android.app.IntentService;
 import android.content.Intent;
-import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
 import java.io.BufferedReader;
@@ -13,7 +12,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class LogWatchService extends Service {
+public class LogWatchService extends IntentService {
 
   private static final String THREAD_NAME = LogWatchService.class.getSimpleName();
   private static final String TAG = THREAD_NAME;
@@ -34,22 +33,21 @@ public class LogWatchService extends Service {
   private ViolationType[] values = ViolationType.values();
 
   public LogWatchService() {
+    this(TAG);
+  }
+
+  public LogWatchService(String name) {
+    super(name);
     violationStore = new ViolationStore(this);
   }
 
   @Override public int onStartCommand(Intent intent, int flags, int startId) {
-    new Thread(new Runnable() {
-      @Override public void run() {
-        startReadLoop();
-        stopSelf();
-      }
-    }, THREAD_NAME).start();
-
+    super.onStartCommand(intent, flags, startId);
     return START_STICKY;
   }
 
-  @Override public IBinder onBind(Intent intent) {
-    return null;
+  @Override protected void onHandleIntent(Intent intent) {
+    startReadLoop();
   }
 
   @Override public void onDestroy() {
