@@ -10,7 +10,6 @@
     <activity
         android:name=".StrictModeReportActivity"
         android:enabled="false"
-        android:exported="false"
         android:icon="@drawable/strictmode_notifier_ic_launcher"
         android:label="@string/strictmode_notifier_app_name"
         android:taskAffinity="com.nshmura.strictmodenotifier"
@@ -23,8 +22,7 @@
 
     <activity
         android:name=".StrictModeReportDetailActivity"
-        android:theme="@style/StrictModeNotifier.AppTheme"
-        android:exported="false"/>
+        android:theme="@style/StrictModeNotifier.AppTheme"/>
 
   </application>
 
