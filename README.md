@@ -1,4 +1,6 @@
 # strictmode-notifier
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-strictmode--notifier-green.svg?style=true)](https://android-arsenal.com/details/1/3405)
+
 An Android library that enhances the StrictMode reporting.
 
 - *Head-up Notification* of StrictMode violations.
