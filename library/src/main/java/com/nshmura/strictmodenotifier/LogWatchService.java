@@ -62,19 +62,21 @@ public class LogWatchService extends IntentService {
 
   /**
    * notify the StrictModeViolation.
+   *
+   * @param violation StrictModeViolation
    */
   protected void notifyViolation(StrictModeViolation violation) {
 
     //Custom Actions
-    List<NotifierConfig.CustomAction> customActions = notifierConfig.getCustomActions();
-    for (NotifierConfig.CustomAction customAction : customActions) {
+    List<CustomAction> customActions = notifierConfig.getCustomActions();
+    for (CustomAction customAction : customActions) {
       customAction.onViolation(violation);
     }
 
     //Default Action
     String notificationTitle;
     if (violation.violationType != null) {
-      notificationTitle = violation.violationType.violationName();
+      notificationTitle = ViolationTypeInfo.convert(violation.violationType).violationName();
     } else {
       notificationTitle = getString(R.string.strictmode_notifier_title, getPackageName());
     }
@@ -249,7 +251,8 @@ public class LogWatchService extends IntentService {
   private ViolationType getViolationType(List<StrictModeLog> logs) {
     for (StrictModeLog log : logs) {
       for (ViolationType type : values) {
-        if (type.detector.detect(log)) {
+        ViolationTypeInfo info = ViolationTypeInfo.convert(type);
+        if (info.detector.detect(log)) {
           return type;
         }
       }

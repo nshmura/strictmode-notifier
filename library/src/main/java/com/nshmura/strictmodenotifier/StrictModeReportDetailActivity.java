@@ -45,7 +45,8 @@ public class StrictModeReportDetailActivity extends Activity {
     stackTreace.setText(span);
 
     if (report.violationType != null) {
-      ReportActivityUtils.setTitle(this, report.violationType.violationName());
+      ReportActivityUtils.setTitle(this,
+          ViolationTypeInfo.convert(report.violationType).violationName());
       ReportActivityUtils.setDisplayHomeAsUpEnabled(this, true);
     }
 
@@ -114,7 +115,7 @@ public class StrictModeReportDetailActivity extends Activity {
   private String shareText() {
     String shareText;
     if (report.violationType != null) {
-      shareText = report.violationType.violationName();
+      shareText = ViolationTypeInfo.convert(report.violationType).violationName();
       shareText += "\n\n" + report.getStacktraceText();
     } else {
       shareText = report.getStacktraceText();

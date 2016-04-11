@@ -25,6 +25,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import com.nshmura.strictmodenotifier.LogWatchService;
 import com.nshmura.strictmodenotifier.ViolationType;
+import com.nshmura.strictmodenotifier.ViolationTypeInfo;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -62,14 +63,13 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
-  private void fireStrictModeError(ViolationType action) {
-
-    if (Build.VERSION.SDK_INT < action.minSdkVersion) {
-      Toast.makeText(this, "min sdk version " + action.minSdkVersion, Toast.LENGTH_LONG).show();
+  private void fireStrictModeError(ViolationTypeInfo info) {
+    if (Build.VERSION.SDK_INT < info.minSdkVersion) {
+      Toast.makeText(this, "min sdk version " + info.minSdkVersion, Toast.LENGTH_LONG).show();
       return;
     }
 
-    switch (action) {
+    switch (info) {
       case CUSTOM_SLOW_CALL:
         fireSlowCall();
         break;
@@ -219,18 +219,19 @@ public class MainActivity extends AppCompatActivity {
         convertView =
             LayoutInflater.from(MainActivity.this).inflate(R.layout.row_actions, parent, false);
       }
-      final ViolationType action = getItem(position);
+      final ViolationTypeInfo info = ViolationTypeInfo.convert(getItem(position));
 
-      String text = String.format("%s error (minSdk %s)", action.name().replace("_", " "),
-          action.minSdkVersion);
+      String text = String.format("%s error (minSdk %s)",
+          ViolationTypeInfo.convert(info.violationType).violationName(),
+          info.minSdkVersion);
 
       Button button = (Button) convertView.findViewById(R.id.button);
       button.setText(text);
-      button.setEnabled(Build.VERSION.SDK_INT >= action.minSdkVersion);
+      button.setEnabled(Build.VERSION.SDK_INT >= info.minSdkVersion);
 
       button.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View v) {
-          fireStrictModeError(action);
+          fireStrictModeError(info);
         }
       });
 
