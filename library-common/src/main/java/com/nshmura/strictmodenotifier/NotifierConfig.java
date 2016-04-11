@@ -58,12 +58,4 @@ public class NotifierConfig {
     this.headupEnabled = headupEnabled;
     return this;
   }
-
-  public interface CustomAction {
-    void onViolation(StrictModeViolation violation);
-  }
-
-  public interface IgnoreAction {
-    boolean ignore(StrictModeViolation violation);
-  }
 }

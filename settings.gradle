@@ -1,1 +1,1 @@
-include ':library', ':library-no-op', ':demo', ':testapp'
+include ':library-common', ':library', ':library-no-op', ':demo', ':testapp'

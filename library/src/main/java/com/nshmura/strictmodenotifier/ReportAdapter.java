@@ -43,7 +43,8 @@ class ReportAdapter extends BaseAdapter {
     holder.dateText.setText(report.getDateText(reportActivity));
 
     if (report.violationType != null) {
-      holder.violationTypeText.setText(report.violationType.violationName());
+      holder.violationTypeText.setText(
+          ViolationTypeInfo.convert(report.violationType).violationName());
     } else {
       holder.violationTypeText.setText(report.message);
     }

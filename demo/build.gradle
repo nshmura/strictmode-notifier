@@ -11,8 +11,19 @@ android {
     versionCode rootProject.ext.versionCode
     versionName rootProject.ext.versionName
   }
+
+  signingConfigs {
+    product {
+      storeFile file("debug.keystore")
+      storePassword "android"
+      keyAlias "androiddebugkey"
+      keyPassword "android"
+    }
+  }
+
   buildTypes {
     release {
+      signingConfig signingConfigs.product
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
@@ -24,8 +35,8 @@ dependencies {
   testCompile 'junit:junit:4.12'
   compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
 
-  debugCompile project(":library")
-  releaseCompile project(":library-no-op")
-  //debugCompile "com.nshmura:strictmode-notifier:$rootProject.ext.versionName"
-  //releaseCompile "com.nshmura:strictmode-notifier-no-op:$rootProject.ext.versionName"
+  //debugCompile project(":library")
+  //releaseCompile project(":library-no-op")
+  debugCompile "com.nshmura:strictmode-notifier:$rootProject.ext.versionName"
+  releaseCompile "com.nshmura:strictmode-notifier-no-op:$rootProject.ext.versionName"
 }

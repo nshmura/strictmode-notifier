@@ -9,6 +9,10 @@ android {
     minSdkVersion rootProject.ext.minSdkVersion
     targetSdkVersion rootProject.ext.targetSdkVersion
   }
+
+  sourceSets {
+    main.java.srcDirs += ['../library-common/src/main/java/']
+  }
 }
 
 publish {

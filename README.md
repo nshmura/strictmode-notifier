@@ -1,9 +1,10 @@
 # strictmode-notifier
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-strictmode--notifier-green.svg?style=true)](https://android-arsenal.com/details/1/3405)
 
-An Android library that enhances the StrictMode reporting.
+An Android library that improves the StrictMode reporting.
 
 - *Head-up Notification* of StrictMode violations.
+- *Ignoring Specific Violations*
 - *Custom Actions* that called when StrictMode violations is happend.
 - *Violation History Viewer* that automatically installed. <br> <img src="/library/src/main/res/drawable-xxxhdpi/strictmode_notifier_ic_launcher.png" width="30"/>
 
@@ -25,8 +26,8 @@ In your `build.gradle`:
  }
 
  dependencies {
-    debugCompile 'com.nshmura:strictmode-notifier:0.8.2'
-    releaseCompile 'com.nshmura:strictmode-notifier-no-op:0.8.2'
+    debugCompile 'com.nshmura:strictmode-notifier:0.9.0'
+    releaseCompile 'com.nshmura:strictmode-notifier-no-op:0.9.0'
  }
 ```
 
@@ -73,57 +74,14 @@ public class ExampleApplication extends Application {
 2. If StrictMode violation is happend, error logs is outputed.
 3. `strictmode-notifier` reads that log via `logcat`, and shows a notification of the violation.
 
-
 ## Customizing
-
-You need to make sure that the customization happens only in debug build,
-since the `strictmode-notifier-no-op` only contains the StrictModeNotifier class.
-
-Make `MyStrictMode` class in debug build directory:
-
-```java
-public class MyStrictMode {
-
-  public static void init(Context context) {
-    StrictModeNotifier
-        .install(context)
-        //... Customizing ...
-
-    //setup StrictMode.
-    //...
-  }
-}
-```
-
-Make `MyStrictMode` class in release build directory:
-
-```java
-public class MyStrictMode {
-
-  public static void init(Context context) {
-    //no-op
-  }
-}
-```
-
-In your `Application` class:
-
-```java
-public class ExampleApplication extends Application {
-
-  @Override public void onCreate() {
-    super.onCreate();
-    MyStrictMode.init(this);
-  }
-}
-```
 
 ### How to ignore specific violations
 
 ```java
 StrictModeNotifier
     .install(context)
-    .setIgnoreAction(new NotifierConfig.IgnoreAction() {
+    .setIgnoreAction(new IgnoreAction() {
       @Override public boolean ignore(StrictModeViolation violation) {
         // ex) ignore LEAKED_CLOSABLE_OBJECTS that contains android.foo.bar in stacktrace.
         return violation.violationType == ViolationType.LEAKED_CLOSABLE_OBJECTS
@@ -137,19 +95,26 @@ StrictModeNotifier
 ```java
 StrictModeNotifier
     .install(context)
-    .addCustomAction(new NotifierConfig.CustomAction() {
+    .addCustomAction(new CustomAction() {
       @Override public void onViolation(StrictModeViolation violation) {
         //ex) Send messages into Slack
       }
     });
 ```
 
-### Other settings
+### How to disable Headup Notification
 
 ```java
 StrictModeNotifier
     .install(context)
-    .setHeadupEnabled(false)
+    .setHeadupEnabled(false);
+```
+
+### How to enable debug mode of strictmode-notifier
+
+```java
+StrictModeNotifier
+    .install(context)
     .setDebugMode(true);
 ```
 
