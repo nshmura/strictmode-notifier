@@ -9,10 +9,15 @@ An Android library that improves the StrictMode reporting.
 - *Custom Actions* that called when StrictMode violations is happend.
 - *Violation History Viewer* that automatically installed. <br> <img src="/library/src/main/res/drawable-xxxhdpi/strictmode_notifier_ic_launcher.png" width="30"/>
 
-<img src="assets/video.gif" width="30%" hspace="10" vspace="10"><br>
+## Screenshots
 <img src="assets/notification.png" width="30%" hspace="10" vspace="10"/>
 <img src="assets/detail.png" width="30%" hspace="10" vspace="10"/>
 <img src="assets/list.png" width="30%" hspace="10" vspace="10"/>
+
+## Sample App
+[strictmode-notifier/testapp](https://github.com/nshmura/strictmode-notifier/tree/master/testapp)
+
+<img src="assets/video.gif" width="30%" hspace="10" vspace="10"><br>
 
 ## About StrictMode
 - [StrictMode for Runtime Analysis on Android](https://medium.com/google-developers/strictmode-for-runtime-analysis-on-android-f8d0a2c5667e#.elffd4gi1)
