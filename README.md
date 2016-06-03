@@ -33,8 +33,8 @@ In your `build.gradle`:
  }
 
  dependencies {
-    debugCompile 'com.nshmura:strictmode-notifier:0.9.0'
-    releaseCompile 'com.nshmura:strictmode-notifier-no-op:0.9.0'
+    debugCompile 'com.nshmura:strictmode-notifier:0.9.1'
+    releaseCompile 'com.nshmura:strictmode-notifier-no-op:0.9.1'
  }
 ```
 
