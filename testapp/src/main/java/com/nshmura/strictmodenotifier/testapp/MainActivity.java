@@ -198,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
       list.remove(ViolationType.ACTIVITY_LEAKS);
       list.remove(ViolationType.LEAKED_REGISTRATION_OBJECTS);
       list.remove(ViolationType.LEAKED_SQL_LITE_OBJECTS);
+      list.remove(ViolationType.UNKNOWN);
       values = list.toArray(new ViolationType[list.size()]);
     }
 

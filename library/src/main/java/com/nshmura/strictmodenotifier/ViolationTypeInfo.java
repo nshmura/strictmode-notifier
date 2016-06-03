@@ -72,7 +72,9 @@ public enum ViolationTypeInfo {
       "Leaked Sql Lite Objects",
       ViolationType.LEAKED_SQL_LITE_OBJECTS,
       Build.VERSION_CODES.GINGERBREAD,
-      null);
+      null),
+
+  UNKNOWN("UNKNOWN", ViolationType.UNKNOWN, 0, null);
 
   private String name;
   public final ViolationType violationType;
@@ -102,7 +104,7 @@ public enum ViolationTypeInfo {
         return info;
       }
     }
-    throw new IllegalArgumentException("unknown violation type: " + type);
+    return ViolationTypeInfo.UNKNOWN;
   }
 
   public String violationName() {

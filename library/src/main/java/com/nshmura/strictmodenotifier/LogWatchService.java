@@ -30,7 +30,7 @@ public class LogWatchService extends IntentService {
   private final ViolationStore violationStore;
   private List<StrictModeLog> logs = new ArrayList<>();
   private Timer timer = null;
-  private ViolationType[] values = ViolationType.values();
+  private ViolationType[] violationTypes = ViolationType.values();
 
   public LogWatchService() {
     this(TAG);
@@ -225,7 +225,7 @@ public class LogWatchService extends IntentService {
     }
 
     ViolationType violationType = getViolationType(logs);
-    if (violationType == null && logKey.contains(EXCEPTION_KEY)) {
+    if (violationType == ViolationType.UNKNOWN && logKey.contains(EXCEPTION_KEY)) {
       return null;
     }
 
@@ -250,14 +250,14 @@ public class LogWatchService extends IntentService {
 
   private ViolationType getViolationType(List<StrictModeLog> logs) {
     for (StrictModeLog log : logs) {
-      for (ViolationType type : values) {
+      for (ViolationType type : violationTypes) {
         ViolationTypeInfo info = ViolationTypeInfo.convert(type);
-        if (info.detector.detect(log)) {
+        if (info != null && info.detector.detect(log)) {
           return type;
         }
       }
     }
-    return null;
+    return ViolationType.UNKNOWN;
   }
 
   private void log(String message) {
