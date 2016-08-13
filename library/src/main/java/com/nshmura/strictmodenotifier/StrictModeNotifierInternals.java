@@ -21,7 +21,7 @@ import static android.os.Build.VERSION_CODES.HONEYCOMB;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 
-public final class StrictModeNotifierInternals {
+final class StrictModeNotifierInternals {
 
   private static final Executor fileIoExecutor = newSingleThreadExecutor("File-IO");
   private static final int NOTIFICATION_ID = 1;

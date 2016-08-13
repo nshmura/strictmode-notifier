@@ -8,5 +8,6 @@
   <string name="strictmode_notifier_menu_copy">Copy</string>
   <string name="strictmode_notifier_menu_share">Share</string>
   <string name="strictmode_notifier_delete">DELETE</string>
-
+  <string name="strictmode_notifier_enabled">Notification\nEnabled</string>
+  <string name="strictmode_notifier_disabled">Notification\nDisabled</string>
 </resources>

@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.ToggleButton;
 import java.util.List;
 
 import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
@@ -36,6 +38,14 @@ public class StrictModeReportActivity extends Activity {
       @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         StrictModeViolation report = adapter.getItem(position);
         StrictModeReportDetailActivity.start(StrictModeReportActivity.this, report);
+      }
+    });
+
+    ToggleButton toggleButton = (ToggleButton) findViewById(R.id.__enable_button);
+    toggleButton.setChecked(StringModeConfig.from(this).isEnabled());
+    toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+      @Override public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        StringModeConfig.from(StrictModeReportActivity.this).toggle();
       }
     });
 

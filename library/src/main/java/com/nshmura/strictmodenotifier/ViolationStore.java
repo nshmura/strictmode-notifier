@@ -11,14 +11,14 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ViolationStore {
+class ViolationStore {
   private static final String NAME = "strictmode";
   private static final String KEY = "reports";
   private static final int MAX_REPORTS = 50;
 
   private final Context context;
 
-  public ViolationStore(Context context) {
+  ViolationStore(Context context) {
     this.context = context;
   }
 

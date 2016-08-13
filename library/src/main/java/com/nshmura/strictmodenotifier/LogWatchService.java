@@ -66,7 +66,6 @@ public class LogWatchService extends IntentService {
    * @param violation StrictModeViolation
    */
   protected void notifyViolation(StrictModeViolation violation) {
-
     //Custom Actions
     List<CustomAction> customActions = notifierConfig.getCustomActions();
     for (CustomAction customAction : customActions) {
@@ -180,7 +179,8 @@ public class LogWatchService extends IntentService {
             boolean isAt = log.isAt();
             if (!isAt && prevIsAt && targets.size() > 0) {
               StrictModeViolation report = createViolation(targets);
-              if (report != null) {
+              if (report != null && StringModeConfig.from(LogWatchService.this).isEnabled()) {
+                storeViolation(report);
                 notifyViolation(report);
               }
               targets.clear();
@@ -192,7 +192,8 @@ public class LogWatchService extends IntentService {
 
           if (targets.size() > 0 && System.currentTimeMillis() - lastReadTime >= LOG_DELAY) {
             StrictModeViolation report = createViolation(targets);
-            if (report != null) {
+            if (report != null && StringModeConfig.from(LogWatchService.this).isEnabled()) {
+              storeViolation(report);
               notifyViolation(report);
             }
             targets.clear();
@@ -239,13 +240,15 @@ public class LogWatchService extends IntentService {
       }
     }
 
+    return violation;
+  }
+
+  private void storeViolation(StrictModeViolation violation) {
     try {
       violationStore.append(violation);
     } catch (IOException e) {
       e.printStackTrace();
     }
-
-    return violation;
   }
 
   private ViolationType getViolationType(List<StrictModeLog> logs) {
