@@ -6,7 +6,7 @@ An Android library that improves the StrictMode reporting.
 
 - *Head-up Notification* of StrictMode violations.
 - *Ignoring Specific Violations*
-- *Custom Actions* that called when StrictMode violations is happend.
+- *Custom Actions* that called when StrictMode violations is happened.
 - *Violation History Viewer* that automatically installed. <br> <img src="/library/src/main/res/drawable-xxxhdpi/strictmode_notifier_ic_launcher.png" width="30"/>
 
 ## Screenshots
@@ -78,7 +78,7 @@ public class ExampleApplication extends Application {
 
 ## How does it work?
 1. `strictmode-notifier` starts `logcat`  command in backgound thread, and infinitely reads the log from `logcat`.
-2. If StrictMode violation is happend, error logs is outputed.
+2. If StrictMode violation is happened, error logs is outputed.
 3. `strictmode-notifier` reads that log via `logcat`, and shows a notification of the violation.
 
 ## Customizing
