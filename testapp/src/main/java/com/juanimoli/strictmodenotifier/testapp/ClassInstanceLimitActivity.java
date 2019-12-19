@@ -21,10 +21,7 @@ public class ClassInstanceLimitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Post a message and delay its execution for 10 minutes.
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-            }
+        new Handler().postDelayed(() -> {
         }, 1000 * 60 * 10);
 
         int count = getIntent().getIntExtra(EXTRA_COUNT, 0);

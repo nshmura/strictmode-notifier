@@ -36,8 +36,7 @@ android {
 }
 
 dependencies {
-    debugImplementation project(":library")
-    releaseImplementation project(":library-no-op")
+    implementation project(":notifier")
 
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
 

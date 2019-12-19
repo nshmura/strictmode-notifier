@@ -17,20 +17,17 @@ public class MainApplication extends Application {
                 .setDebugMode(true);
 
         //https://code.google.com/p/android/issues/detail?id=35298
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                StrictMode.ThreadPolicy threadPolicy = new StrictMode.ThreadPolicy.Builder().detectAll()
-                        .permitDiskReads()
-                        .permitDiskWrites()
-                        .penaltyLog()
-                        .build();
-                StrictMode.setThreadPolicy(threadPolicy);
+        new Handler().post(() -> {
+            StrictMode.ThreadPolicy threadPolicy = new StrictMode.ThreadPolicy.Builder().detectAll()
+                    .permitDiskReads()
+                    .permitDiskWrites()
+                    .penaltyLog()
+                    .build();
+            StrictMode.setThreadPolicy(threadPolicy);
 
-                StrictMode.VmPolicy vmPolicy =
-                        new StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build();
-                StrictMode.setVmPolicy(vmPolicy);
-            }
+            StrictMode.VmPolicy vmPolicy =
+                    new StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build();
+            StrictMode.setVmPolicy(vmPolicy);
         });
     }
 }

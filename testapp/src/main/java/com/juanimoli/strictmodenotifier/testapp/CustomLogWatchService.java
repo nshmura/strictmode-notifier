@@ -3,7 +3,7 @@ package com.juanimoli.strictmodenotifier.testapp;
 import android.util.Log;
 
 import com.juanimoli.strictmodenotifier.LogWatchService;
-import com.juanimoli.strictmodenotifier.StrictModeViolation;
+import com.juanimoli.strictmodenotifier.commons.StrictModeViolation;
 
 public class CustomLogWatchService extends LogWatchService {
 

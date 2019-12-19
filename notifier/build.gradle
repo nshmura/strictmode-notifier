@@ -1,0 +1,36 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
+
+android {
+    compileSdkVersion maxApiLevel.toInteger()
+    buildToolsVersion androidBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion minApiLevel
+        targetSdkVersion maxApiLevel
+
+        consumerProguardFiles 'proguard-rules.pro'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dexOptions.preDexLibraries = true
+}
+
+publish {
+    userOrg = POM_DEVELOPER_ID
+    groupId = POM_GROUP
+    artifactId = POM_ARTIFACT_ID
+    uploadName = POM_ARTIFACT_NAME
+    publishVersion = POM_VERSION_NAME
+    desc = POM_DESCRIPTION
+    website = POM_URL
+    repoName = POM_REPO_NAME
+}
+
+dependencies {
+    implementation "com.android.support:support-core-utils:$supportLibraryVersion"
+}

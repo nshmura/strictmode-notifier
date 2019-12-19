@@ -25,8 +25,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.juanimoli.strictmodenotifier.LogWatchService;
-import com.juanimoli.strictmodenotifier.ViolationType;
 import com.juanimoli.strictmodenotifier.ViolationTypeInfo;
+import com.juanimoli.strictmodenotifier.commons.ViolationType;
+import com.juanimoli.strictmodenotifier.testapp.ClassInstanceLimitActivity;
+import com.juanimoli.strictmodenotifier.testapp.LeakedClosableObjectsActivity;
+import com.juanimoli.strictmodenotifier.testapp.LeakedSQLiteOpenHelper;
+import com.juanimoli.strictmodenotifier.testapp.R;
 
 import java.io.File;
 import java.io.IOException;
@@ -133,24 +137,21 @@ public class MainActivity extends AppCompatActivity {
     // https://koz.io/android-m-and-the-war-on-cleartext-traffic/
     @TargetApi(Build.VERSION_CODES.M)
     private void fireCleartextNetwork() {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Method method = NetworkSecurityPolicy.getInstance()
-                            .getClass()
-                            .getMethod("setCleartextTrafficPermitted", boolean.class);
-                    method.invoke(NetworkSecurityPolicy.getInstance(), false);
+        Runnable runnable = () -> {
+            try {
+                Method method = NetworkSecurityPolicy.getInstance()
+                        .getClass()
+                        .getMethod("setCleartextTrafficPermitted", boolean.class);
+                method.invoke(NetworkSecurityPolicy.getInstance(), false);
 
-                    URL url = new URL("http://google.com/");
-                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                    con.setRequestMethod("GET");
-                    con.connect();
+                URL url = new URL("http://google.com/");
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                con.connect();
 
-                    method.invoke(NetworkSecurityPolicy.getInstance(), true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                method.invoke(NetworkSecurityPolicy.getInstance(), true);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         };
         new Thread(runnable).start();
@@ -234,16 +235,11 @@ public class MainActivity extends AppCompatActivity {
                     ViolationTypeInfo.convert(info.violationType).violationName(),
                     info.minSdkVersion);
 
-            Button button = (Button) convertView.findViewById(R.id.button);
+            Button button = convertView.findViewById(R.id.button);
             button.setText(text);
             button.setEnabled(Build.VERSION.SDK_INT >= info.minSdkVersion);
 
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    fireStrictModeError(info);
-                }
-            });
+            button.setOnClickListener(v -> fireStrictModeError(info));
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
                 button.setAllCaps(false);

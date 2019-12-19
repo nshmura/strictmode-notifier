@@ -6,11 +6,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class LeakedSQLiteOpenHelper extends SQLiteOpenHelper {
 
-    static final String DB = "sqlite_sample.db";
-    static final int DB_VERSION = 1;
-    static final String CREATE_TABLE =
+    private static final String DB = "sqlite_sample.db";
+    private static final int DB_VERSION = 1;
+    private static final String CREATE_TABLE =
             "create table sample ( _id integer primary key autoincrement, data integer not null );";
-    static final String DROP_TABLE = "drop table sample;";
+    private static final String DROP_TABLE = "drop table sample;";
 
     public LeakedSQLiteOpenHelper(Context context) {
         super(context, DB, null, DB_VERSION);

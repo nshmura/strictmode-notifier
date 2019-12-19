@@ -13,10 +13,7 @@ public class LeakedBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         // Post a message and delay its execution for 10 minutes.
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-            }
+        new Handler().postDelayed(() -> {
         }, 1000 * 60 * 10);
     }
 }
