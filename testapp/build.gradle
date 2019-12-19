@@ -1,28 +1,37 @@
 apply plugin: 'com.android.application'
 
 android {
-  compileSdkVersion rootProject.ext.compileSdkVersion
-  buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion maxApiLevel.toInteger()
+    buildToolsVersion androidBuildToolsVersion
 
-  defaultConfig {
-    applicationId "com.nshmura.strictmodenotifier.testapp"
-    minSdkVersion rootProject.ext.minSdkVersion
-    targetSdkVersion rootProject.ext.targetSdkVersion
-    versionCode rootProject.ext.versionCode
-    versionName rootProject.ext.versionName
-  }
-  buildTypes {
-    release {
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    defaultConfig {
+        applicationId "$libraryGroupId" + ".testapp"
+        minSdkVersion minApiLevel
+        targetSdkVersion maxApiLevel
+        versionCode "$testAppVersionCode".toInteger()
+        versionName "$testAppVersionName"
+
+        multiDexEnabled true
     }
-  }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
-  testCompile 'junit:junit:4.12'
-  compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
+    debugImplementation project(":library")
+    releaseImplementation project(":library")
 
-  compile project(":library")
-  //compile "com.nshmura:strictmode-notifer:$rootProject.ext.versionName"
+    implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
+
+    testImplementation 'junit:junit:4.12'
 }

@@ -1,40 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-  <ListView
-      android:id="@+id/__list_view"
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1"
-      android:divider="@null"/>
+    <ListView
+        android:id="@+id/__list_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@null" />
 
-  <RelativeLayout
-      android:orientation="horizontal"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:padding="8dp">
-
-    <Button
-        android:id="@+id/__delete_button"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/__enable_button"
-        android:layout_alignTop="@+id/__enable_button"
-        android:layout_alignBottom="@+id/__enable_button"
-        android:text="@string/strictmode_notifier_delete_all"/>
+        android:orientation="horizontal"
+        android:padding="8dp">
 
-    <ToggleButton
-        android:id="@+id/__enable_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:textOn="@string/strictmode_notifier_enabled"
-        android:textOff="@string/strictmode_notifier_disabled"/>
+        <Button
+            android:id="@+id/__delete_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/__enable_button"
+            android:layout_alignBottom="@+id/__enable_button"
+            android:layout_toLeftOf="@+id/__enable_button"
+            android:text="@string/strictmode_notifier_delete_all" />
 
-  </RelativeLayout>
+        <ToggleButton
+            android:id="@+id/__enable_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textOff="@string/strictmode_notifier_disabled"
+            android:textOn="@string/strictmode_notifier_enabled" />
+
+    </RelativeLayout>
 
 </LinearLayout>

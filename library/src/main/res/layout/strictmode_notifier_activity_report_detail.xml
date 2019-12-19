@@ -1,38 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
 
-  <ScrollView
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-    <HorizontalScrollView
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbarSize="1dp">
+
+            <TextView
+                android:id="@+id/__stacktrace_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingMultiplier="1.2"
+                android:padding="16dp"
+                tools:text="this is sample stack trace\n at Foo.class\n at Bar.class" />
+
+        </HorizontalScrollView>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/__delete_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbarSize="1dp">
-
-      <TextView
-          android:id="@+id/__stacktrace_text"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:padding="16dp"
-          android:lineSpacingMultiplier="1.2"
-          tools:text="this is sample stack trace\n at Foo.class\n at Bar.class"/>
-
-    </HorizontalScrollView>
-
-  </ScrollView>
-
-  <Button
-      android:id="@+id/__delete_button"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/strictmode_notifier_delete"/>
+        android:text="@string/strictmode_notifier_delete" />
 
 </LinearLayout>

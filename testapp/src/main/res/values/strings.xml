@@ -1,4 +1,4 @@
 <resources>
-  <string name="app_name">strictmode-notifier TestApp</string>
-  <string name="menu_stop_service">Stop LogWatchService</string>
+    <string name="app_name">strictmode-notifier TestApp</string>
+    <string name="menu_stop_service">Stop LogWatchService</string>
 </resources>

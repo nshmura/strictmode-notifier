@@ -2,25 +2,36 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
 
 android {
-  compileSdkVersion rootProject.ext.compileSdkVersion
-  buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion maxApiLevel.toInteger()
+    buildToolsVersion androidBuildToolsVersion
 
-  defaultConfig {
-    minSdkVersion rootProject.ext.minSdkVersion
-    targetSdkVersion rootProject.ext.targetSdkVersion
-  }
+    defaultConfig {
+        minSdkVersion minApiLevel
+        targetSdkVersion maxApiLevel
 
-  sourceSets {
-    main.java.srcDirs += ['../library-common/src/main/java/']
-  }
+        consumerProguardFiles 'proguard-rules.pro'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dexOptions.preDexLibraries = true
 }
 
 publish {
-  userOrg = rootProject.ext.POM_DEVELOPER_ID
-  groupId = rootProject.ext.POM_GROUP
-  artifactId = rootProject.ext.POM_ARTIFACT_ID
-  uploadName = rootProject.ext.POM_ARTIFACT_NAME
-  publishVersion = rootProject.ext.POM_VERSION_NAME
-  desc = rootProject.ext.POM_DESCRIPTION
-  website = rootProject.ext.POM_URL
+    userOrg = POM_DEVELOPER_ID
+    groupId = POM_GROUP
+    artifactId = POM_ARTIFACT_ID
+    uploadName = POM_ARTIFACT_NAME
+    publishVersion = POM_VERSION_NAME
+    desc = POM_DESCRIPTION
+    website = POM_URL
+}
+
+dependencies {
+    api project(':library-common')
+
+    implementation "com.android.support:support-core-utils:$supportLibraryVersion"
 }

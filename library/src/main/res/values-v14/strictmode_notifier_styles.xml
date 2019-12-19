@@ -1,8 +1,8 @@
 <resources>
 
-  <!-- Base application theme. -->
-  <style name="StrictModeNotifier.AppTheme" parent="android:Theme.Holo">
-    <item name="android:windowBackground">@color/strictmode_notifier_color</item>
-  </style>
+    <!-- Base application theme. -->
+    <style name="StrictModeNotifier.AppTheme" parent="android:Theme.Holo">
+        <item name="android:windowBackground">@color/strictmode_notifier_color</item>
+    </style>
 
 </resources>

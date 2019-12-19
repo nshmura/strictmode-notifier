@@ -1,13 +1,13 @@
 <resources>
-  <string name="strictmode_notifier_app_name">StrictMode</string>
-  <string name="strictmode_notifier_title">Violation in %s</string>
-  <string name="strictmode_notifier_more_detail">Click for more detail</string>
-  <string name="strictmode_notifier_delete_all">DELETE ALL</string>
-  <string name="strictmode_notifier_count">%02d.</string>
-  <string name="strictmode_notifier_copyped">copyed</string>
-  <string name="strictmode_notifier_menu_copy">Copy</string>
-  <string name="strictmode_notifier_menu_share">Share</string>
-  <string name="strictmode_notifier_delete">DELETE</string>
-  <string name="strictmode_notifier_enabled">Notification\nEnabled</string>
-  <string name="strictmode_notifier_disabled">Notification\nDisabled</string>
+    <string name="strictmode_notifier_app_name">StrictMode</string>
+    <string name="strictmode_notifier_title">Violation in %s</string>
+    <string name="strictmode_notifier_more_detail">Click for more detail</string>
+    <string name="strictmode_notifier_delete_all">DELETE ALL</string>
+    <string name="strictmode_notifier_count">%02d.</string>
+    <string name="strictmode_notifier_copyped">copyed</string>
+    <string name="strictmode_notifier_menu_copy">Copy</string>
+    <string name="strictmode_notifier_menu_share">Share</string>
+    <string name="strictmode_notifier_delete">DELETE</string>
+    <string name="strictmode_notifier_enabled">Notification\nEnabled</string>
+    <string name="strictmode_notifier_disabled">Notification\nDisabled</string>
 </resources>

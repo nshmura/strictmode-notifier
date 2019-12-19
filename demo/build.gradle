@@ -1,42 +1,45 @@
 apply plugin: 'com.android.application'
 
 android {
-  compileSdkVersion rootProject.ext.compileSdkVersion
-  buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion maxApiLevel.toInteger()
+    buildToolsVersion androidBuildToolsVersion
 
-  defaultConfig {
-    applicationId "com.nshmura.strictmodenotifier.demo"
-    minSdkVersion 11
-    targetSdkVersion rootProject.ext.targetSdkVersion
-    versionCode rootProject.ext.versionCode
-    versionName rootProject.ext.versionName
-  }
+    defaultConfig {
+        applicationId "$libraryGroupId" + ".demo"
+        minSdkVersion minApiLevel
+        targetSdkVersion maxApiLevel
+        versionCode "$testAppVersionCode".toInteger()
+        versionName "$testAppVersionName"
 
-  signingConfigs {
-    product {
-      storeFile file("debug.keystore")
-      storePassword "android"
-      keyAlias "androiddebugkey"
-      keyPassword "android"
+        multiDexEnabled true
     }
-  }
 
-  buildTypes {
-    release {
-      signingConfig signingConfigs.product
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    buildTypes {
+        debug {
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled false
+            aaptOptions {
+                cruncherEnabled false
+            }
+        }
+        release {
+            initWith(buildTypes.debug)
+            minifyEnabled true
+            shrinkResources true
+        }
     }
-  }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
-  compile fileTree(dir: 'libs', include: ['*.jar'])
-  testCompile 'junit:junit:4.12'
-  compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
+    debugImplementation project(":library")
+    releaseImplementation project(":library-no-op")
 
-  debugCompile project(":library")
-  releaseCompile project(":library-no-op")
-  //debugCompile "com.nshmura:strictmode-notifier:$rootProject.ext.versionName"
-  //releaseCompile "com.nshmura:strictmode-notifier-no-op:$rootProject.ext.versionName"
+    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
+
+    testImplementation 'junit:junit:4.12'
 }
