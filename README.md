@@ -2,6 +2,9 @@
 [![Android Weekly](http://img.shields.io/badge/Android%20Weekly-%23200-2CB3E5.svg?style=flat)](http://androidweekly.net/issues/issue-200)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-strictmode--notifier-green.svg?style=true)](https://android-arsenal.com/details/1/3405)
 
+## Origins
+Forked from [original repo](https://github.com/nshmura/strictmode-notifier) because it was no longer mantained
+
 An Android library that improves the StrictMode reporting.
 
 - *Head-up Notification* of StrictMode violations.
@@ -33,7 +36,7 @@ In your `build.gradle`:
  }
 
  dependencies {
-    debugImplementation 'com.nshmura:strictmode-notifier:0.9.3'
+    implementation 'com.juanimoli.strictmode:notifier:1.0.0'
  }
 ```
 
@@ -76,9 +79,9 @@ public class ExampleApplication extends Application {
 ```
 
 ## How does it work?
-1. `strictmode-notifier` starts `logcat`  command in backgound thread, and infinitely reads the log from `logcat`.
+1. `notifier` starts `logcat`  command in backgound thread, and infinitely reads the log from `logcat`.
 2. If StrictMode violation is happend, error logs is outputed.
-3. `strictmode-notifier` reads that log via `logcat`, and shows a notification of the violation.
+3. `notifier` reads that log via `logcat`, and shows a notification of the violation.
 
 ## Customizing
 
