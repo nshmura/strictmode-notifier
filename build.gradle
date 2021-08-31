@@ -1,28 +1,20 @@
 buildscript {
     repositories {
-        jcenter()
         google()
+        mavenCentral()
     }
+
     dependencies {
         classpath "com.android.tools.build:gradle:$androidGradlePluginVersion"
-        classpath "com.novoda:bintray-release:$novodaGradlePluginVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
 }
 
-allprojects {
-    repositories {
-        jcenter()
-        google()
-    }
-
-    tasks.withType(JavaCompile) {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    group = libraryGroupId
-    version = libraryVersion
+plugins {
+    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 }
+
+apply from: "${rootDir}/gradle/publishing-root.gradle"
 
 task clean(type: Delete) {
     delete rootProject.buildDir

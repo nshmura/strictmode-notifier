@@ -1,6 +1,4 @@
 <resources>
-
     <!-- Base application theme. -->
-    <style name="StrictModeNotifier.AppTheme" parent="android:Theme"></style>
-
+    <style name="StrictModeNotifier.AppTheme" parent="android:Theme" />
 </resources>

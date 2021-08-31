@@ -1,18 +1,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.juanimoli.strictmodenotifier">
+    package="io.github.juanimoli.strictmode.notifier">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application>
         <service
-            android:name=".LogWatchService"
-            android:exported="false"
+            android:name="io.github.juanimoli.strictmode.notifier.LogWatchService"
+            android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <activity
-            android:name=".StrictModeReportActivity"
+            android:name="io.github.juanimoli.strictmode.notifier.StrictModeReportActivity"
             android:enabled="false"
-            android:icon="@drawable/strictmode_notifier_ic_launcher"
+            android:exported="true"
+            android:icon="@mipmap/strictmode_notifier_ic_launcher"
             android:label="@string/strictmode_notifier_app_name"
             android:taskAffinity="com.nshmura.strictmodenotifier"
             android:theme="@style/StrictModeNotifier.AppTheme">
@@ -23,7 +24,7 @@
         </activity>
 
         <activity
-            android:name="com.juanimoli.strictmodenotifier.StrictModeReportDetailActivity"
+            android:name="io.github.juanimoli.strictmode.notifier.StrictModeReportDetailActivity"
             android:theme="@style/StrictModeNotifier.AppTheme" />
 
     </application>

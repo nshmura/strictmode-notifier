@@ -3,7 +3,7 @@
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-strictmode--notifier-green.svg?style=true)](https://android-arsenal.com/details/1/3405)
 
 ## Origins
-Forked from [original repo](https://github.com/nshmura/strictmode-notifier) because it was no longer mantained
+Forked from [original repo](https://github.com/nshmura/strictmode-notifier) because it was no longer maintained
 
 An Android library that improves the StrictMode reporting.
 
@@ -36,7 +36,7 @@ In your `build.gradle`:
  }
 
  dependencies {
-    implementation 'com.juanimoli.strictmode:notifier:1.0.0'
+    implementation 'io.github.juanimoli.strictmode.notifier:notifier:2.0.0'
  }
 ```
 
@@ -45,36 +45,33 @@ In your `Application` class:
 ```java
 public class ExampleApplication extends Application {
 
-  @Override public void onCreate() {
-    super.onCreate();
-    
-    if (BuildConfig.DEBUG) {
-      //setup this library
-      StrictModeNotifier.install(this);
+    @Override
+    public void onCreate() {
+        super.onCreate();
 
-      //setup StrictMode.
-      // 
-      // penaltyLog() should be called for strictmode-notifier
-      //
-      new Handler().post(new Runnable() {
-        @Override public void run() {
-          StrictMode.ThreadPolicy threadPolicy = new StrictMode.ThreadPolicy.Builder()
-              .detectAll()
-              .permitDiskReads()
-              .permitDiskWrites()
-              .penaltyLog() // Must!
-              .build();
-          StrictMode.setThreadPolicy(threadPolicy);
+        if (BuildConfig.DEBUG) {
+            // setup this library
+            StrictModeNotifier.install(this);
 
-          StrictMode.VmPolicy vmPolicy = new StrictMode.VmPolicy.Builder()
-              .detectAll()
-              .penaltyLog() // Must!
-              .build();
-          StrictMode.setVmPolicy(vmPolicy);
+            // setup StrictMode.
+            // penaltyLog() should be called for strictmode-notifier
+            new Handler().post((Runnable) () -> {
+                StrictMode.ThreadPolicy threadPolicy = new StrictMode.ThreadPolicy.Builder()
+                        .detectAll()
+                        .permitDiskReads()
+                        .permitDiskWrites()
+                        .penaltyLog() // Must!
+                        .build();
+                StrictMode.setThreadPolicy(threadPolicy);
+
+                StrictMode.VmPolicy vmPolicy = new StrictMode.VmPolicy.Builder()
+                        .detectAll()
+                        .penaltyLog() // Must!
+                        .build();
+                StrictMode.setVmPolicy(vmPolicy);
+            });
         }
-      });
     }
-  }
 }
 ```
 

@@ -3,4 +3,7 @@
     <item
         android:id="@+id/menu_stop_service"
         android:title="@string/menu_stop_service" />
+    <item
+        android:id="@+id/menu_start_service"
+        android:title="@string/menu_start_service" />
 </menu>

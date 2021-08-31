@@ -1,1 +1,11 @@
-include ':notifier', ':demo', ':testapp'
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "StrictMode Notifier"
+include ':notifier', ':testapp'
