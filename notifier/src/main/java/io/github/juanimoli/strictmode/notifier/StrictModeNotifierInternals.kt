@@ -46,7 +46,7 @@ internal object StrictModeNotifierInternals {
         enabled: Boolean
     ) {
         val appContext = context.applicationContext
-        executeOnFileIoThread { setEnabledBlocking(appContext, componentClass, enabled) }
+        executeOnFileIoThread(Runnable { setEnabledBlocking(appContext, componentClass, enabled) })
     }
 
     fun setEnabledBlocking(

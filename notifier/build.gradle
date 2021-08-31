@@ -45,4 +45,6 @@ dependencies {
     implementation "androidx.legacy:legacy-support-core-utils:$supportCoreUtils"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion"
 }
