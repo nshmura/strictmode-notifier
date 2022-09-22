@@ -1,8 +1,10 @@
 package io.github.juanimoli.strictmode.notifier
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.PendingIntent
 import android.content.*
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -81,7 +83,11 @@ class StrictModeReportActivity : Activity() {
         fun createPendingIntent(context: Context?, report: StrictModeViolation?): PendingIntent {
             val intent = createIntent(context, report)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-            return PendingIntent.getActivity(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                PendingIntent.getActivity(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
+            } else {
+                PendingIntent.getActivity(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            }
         }
     }
 }
