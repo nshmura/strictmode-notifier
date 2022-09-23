@@ -46,7 +46,7 @@ internal object StrictModeNotifierInternals {
         enabled: Boolean
     ) {
         val appContext = context.applicationContext
-        executeOnFileIoThread(Runnable { setEnabledBlocking(appContext, componentClass, enabled) })
+        executeOnFileIoThread { setEnabledBlocking(appContext, componentClass, enabled) }
     }
 
     fun setEnabledBlocking(
@@ -85,7 +85,6 @@ internal object StrictModeNotifierInternals {
     }
 
     @Suppress("DEPRECATION")
-    @TargetApi(VERSION_CODES.JELLY_BEAN)
     private fun showNotificationFor16(
         context: Context,
         contentTitle: CharSequence,

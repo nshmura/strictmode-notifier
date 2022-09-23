@@ -7,6 +7,7 @@ internal class StringModeConfig(private val context: Context) {
     val isEnabled: Boolean
         get() = prefs.getBoolean(KEY, true)
 
+    @Suppress("MemberVisibilityCanBePrivate")
     fun enable(enabled: Boolean) {
         prefs.edit().putBoolean(KEY, enabled).apply()
     }

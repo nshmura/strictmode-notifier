@@ -3,7 +3,6 @@ package io.github.juanimoli.strictmode.notifier.commons
 import android.content.Context
 import android.text.format.DateUtils
 import java.io.Serializable
-import java.util.*
 
 class StrictModeViolation(
     val violationType: ViolationType?,

@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import io.github.juanimoli.strictmode.notifier.commons.StrictModeViolation
-import java.util.*
 
 internal class ReportAdapter(private val reportActivity: StrictModeReportActivity) : BaseAdapter() {
     private val reports: MutableList<StrictModeViolation> = ArrayList()

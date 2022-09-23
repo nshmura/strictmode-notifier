@@ -23,7 +23,6 @@ import io.github.juanimoli.strictmode.notifier.ui.LeakedClosableObjectsActivity
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
-import java.util.*
 
 internal class Adapter : BaseAdapter() {
     private val values: Array<ViolationType>
@@ -98,7 +97,6 @@ internal class Adapter : BaseAdapter() {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private fun fireSlowCall() {
         StrictMode.noteSlowCall("fireSlowCall")
     }

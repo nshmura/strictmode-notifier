@@ -1,17 +1,20 @@
 package io.github.juanimoli.strictmode.notifier
 
-import android.annotation.TargetApi
 import android.app.Activity
-import android.content.*
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
-import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import android.view.*
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import io.github.juanimoli.strictmode.notifier.commons.StrictModeViolation
@@ -78,7 +81,6 @@ class StrictModeReportDetailActivity : Activity() {
         }
     }
 
-    @TargetApi(VERSION_CODES.HONEYCOMB)
     private fun copy() {
         val clip = ClipData.newPlainText("info", shareText())
         val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
@@ -119,6 +121,7 @@ class StrictModeReportDetailActivity : Activity() {
         return shareText
     }
 
+    @Suppress("MemberVisibilityCanBePrivate")
     fun setColor(span: Spannable, stacktraceText: String?, highlight: String, color: Int) {
         val length = highlight.length
         var start = 0
@@ -150,6 +153,7 @@ class StrictModeReportDetailActivity : Activity() {
             context.startActivity(createIntent(context, report))
         }
 
+        @Suppress("MemberVisibilityCanBePrivate")
         fun createIntent(context: Context?, report: StrictModeViolation?): Intent {
             val intent = Intent(context, StrictModeReportDetailActivity::class.java)
             intent.putExtra(EXTRA_REPORT, report)

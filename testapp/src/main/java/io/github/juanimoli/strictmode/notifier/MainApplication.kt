@@ -5,7 +5,6 @@ import android.os.Handler
 import android.os.Looper
 import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
-import io.github.juanimoli.strictmode.notifier.StrictModeNotifier
 
 class MainApplication : Application() {
     override fun onCreate() {

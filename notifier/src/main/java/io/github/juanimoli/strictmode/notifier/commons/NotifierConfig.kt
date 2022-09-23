@@ -1,7 +1,5 @@
 package io.github.juanimoli.strictmode.notifier.commons
 
-import java.util.*
-
 class NotifierConfig private constructor() {
     val customActions: MutableList<CustomAction> = ArrayList()
     var ignoreAction: IgnoreAction? = null

@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.util.Base64
 import io.github.juanimoli.strictmode.notifier.commons.StrictModeViolation
 import java.io.*
-import java.util.*
 
 internal class ViolationStore(private val context: Context) {
     //ignore

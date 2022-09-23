@@ -1,6 +1,6 @@
 plugins {
     id 'com.android.application'
-    id 'kotlin-android'
+    id 'org.jetbrains.kotlin.android'
 }
 
 android {
@@ -11,10 +11,9 @@ android {
         applicationId "$libraryGroupId" + ".testapp"
         minSdkVersion minApiLevel
         targetSdkVersion maxApiLevel
+
         versionCode "$testAppVersionCode".toInteger()
         versionName "$testAppVersionName"
-
-        multiDexEnabled true
     }
 
     buildTypes {
@@ -25,8 +24,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = '11'
     }
 }
 

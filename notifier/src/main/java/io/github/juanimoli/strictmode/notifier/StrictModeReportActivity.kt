@@ -1,14 +1,17 @@
 package io.github.juanimoli.strictmode.notifier
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.PendingIntent
-import android.content.*
+import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
+import android.widget.CompoundButton
+import android.widget.ListView
+import android.widget.ToggleButton
 import io.github.juanimoli.strictmode.notifier.commons.StrictModeViolation
 
 class StrictModeReportActivity : Activity() {
@@ -74,6 +77,7 @@ class StrictModeReportActivity : Activity() {
     companion object {
         private const val EXTRA_REPORT = "EXTRA_REPORT"
 
+        @Suppress("MemberVisibilityCanBePrivate")
         fun createIntent(context: Context?, report: StrictModeViolation?): Intent {
             val intent = Intent(context, StrictModeReportActivity::class.java)
             intent.putExtra(EXTRA_REPORT, report)
@@ -84,7 +88,12 @@ class StrictModeReportActivity : Activity() {
             val intent = createIntent(context, report)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                PendingIntent.getActivity(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
+                PendingIntent.getActivity(
+                    context,
+                    1,
+                    intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+                )
             } else {
                 PendingIntent.getActivity(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
             }

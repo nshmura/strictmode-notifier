@@ -33,6 +33,7 @@ open class LogWatchService @JvmOverloads constructor(name: String? = TAG) : Inte
         violationStore = ViolationStore(this)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreate() {
         super.onCreate()
 
@@ -54,16 +55,19 @@ open class LogWatchService @JvmOverloads constructor(name: String? = TAG) : Inte
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
 
         return START_STICKY
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onHandleIntent(intent: Intent?) {
         startReadLoop()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onDestroy() {
         super.onDestroy()
 
